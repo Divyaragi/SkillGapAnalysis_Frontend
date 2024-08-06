@@ -1,9 +1,9 @@
 import './App.css';
-import ApplicationRoutes from './components/ApplicationRoutes';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
-        <ApplicationRoutes/>
+        <Dashboard/>
   );
 }
 
