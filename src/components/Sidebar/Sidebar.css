@@ -1,0 +1,19 @@
+
+.sidebar-container {
+    background: #a8d5e5;
+}
+
+.sidebar-main-container{
+    display: flex;
+     height: 100vh;
+}
+
+.menu1 {
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.first-menu-item {
+    background-color: rgb(6, 119, 171);
+    color: white;
+}

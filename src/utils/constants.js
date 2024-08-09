@@ -7,3 +7,17 @@ export const loginTextSamples = {
   LOGIN_WITH: 'Login with',
   BILVANTIS_LOGO_ALT: 'Bilvnatis'
 };
+
+export const sidebarTextSamples = {
+    BILVANTIS_TEXT : 'BILVANTIS.IO',
+    DASHBOARD : 'Dashboard',
+    PROFILE : 'Profile',
+    PULL_REQUEST : 'Pull Request',
+    REVIEW : 'Review',
+    COMMENTS : 'Comments',
+    LOG_OUT : 'Log Out'     
+}
+
+export const topbarTextSamples = {
+   CHECK_LIST : 'Check List'
+}

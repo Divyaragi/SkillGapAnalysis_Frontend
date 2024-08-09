@@ -1,5 +1,5 @@
 import React from "react";
-import "./loginPage.css";
+import "./LoginPage.css";
 import { loginTextSamples } from "../../utils/constants";
 
 function LoginPage() {
