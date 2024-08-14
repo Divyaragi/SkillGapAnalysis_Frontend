@@ -1,8 +1,39 @@
-.dashboard-content-container{
-    overflow-y: auto;
-    height: calc(100vh - 51px);
-    /* background-color: #f5f5f5; */
+.dashboard-content-container {
+  height: calc(100vh - 51px);
+  background-color: #F6F8FB;
+  overflow: auto;
 }
-.top-bar-card{
-    height: 51px;
+
+.main {
+  height: calc(100vh);
+}
+
+.top-bar-card {
+  height: 51px;
+}
+
+.dashboard-content-container::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  
+}
+.dashboard-content-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+  
+.dashboard-content-container::-webkit-scrollbar-thumb {
+  background-color: rgb(156, 155, 155);
+  border-right: none;
+  border-left: none;
+  border-radius: 10px;
+}
+
+.dashboard-content-container::-webkit-scrollbar-track-piece:end {
+  background: transparent;
+  margin-bottom: 10px; 
+}
+
+.dashboard-content-container::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: 10px;
 }

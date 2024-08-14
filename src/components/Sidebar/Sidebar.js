@@ -8,6 +8,7 @@ import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { sidebarTextSamples } from '../../utils/constants';
 const Navbar = () => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -17,7 +18,22 @@ const Navbar = () => {
     return (
         <div className='sidebar-main-container'>
             <Sidebar className="sidebar-container" collapsed={sidebarCollapsed} >
-                <Menu>
+                <Menu   menuItemStyles={{
+                        button: ({ level, active, disabled }) => {
+                            if (level === 0) {
+                                return {
+                                    transition: 'background-color 0.3s ease',
+                                    '&:hover': {
+                                        backgroundColor: '#7393a7',
+                                        color : 'white' 
+                                    },
+                                    ...(active && {
+                                        backgroundColor: '#eecef9', 
+                                    }),
+                                };
+                            }
+                        },
+                    }}>
                     <MenuItem className='first-menu-item' icon={<MenuRoundedIcon />} onClick={handleIconClick} >
                         {sidebarTextSamples.BILVANTIS_TEXT}
                     </MenuItem>
@@ -35,6 +51,9 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem icon={<CommentRoundedIcon />}>
                         {sidebarTextSamples.COMMENTS}
+                    </MenuItem>
+                    <MenuItem icon={<PlaylistAddCheckIcon />}>
+                        {sidebarTextSamples.CHECK_LIST}
                     </MenuItem>
                     <MenuItem icon={<LogoutRoundedIcon color="primary" />}>
                         {sidebarTextSamples.LOG_OUT}

@@ -1,13 +1,18 @@
-.card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.dasboard-container{
+    width: 100%;
 }
 
-.card {
+.top-charts-container{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 400px;
+    justify-content: space-between;
+}
 
+.card-container{
+    border: none !important;
+    width: 100%;
+}
+
+.chart-styling{
+   min-height: 300px !important;
+    width: 100% !important;
 }

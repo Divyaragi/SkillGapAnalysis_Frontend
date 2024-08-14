@@ -4,27 +4,29 @@ import LoginPage from '../login/Loginpage';
 import Navbar from '../Sidebar/Sidebar';
 import HomePage from '../HomePage/HomePage';
 import Topbar from '../Topbar/Topbar';
-import './Dashboard.css'
-
+import './Dashboard.css';
+ 
 function DashboardContent() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation();
   const isNavVisible = !noNavBarRoutes.includes(location.pathname);
   const [navVisible, showNavbar] = useState(false);
-
+ 
   return (
-    <div className="d-flex">
+    <div className="d-flex main">
+      <Routes>
+        <Route path='/' element={<Navigate to="/login" />} />
+        <Route path='/login' element={<LoginPage />} />
+      </Routes>
       <div className="col-auto d-flex">
         {isNavVisible && <Navbar visible={navVisible} show={showNavbar} />}
       </div>
-      <div className="w-100">
+      <div className='w-100' >
         <div className='top-bar-card'>
-        {isNavVisible && <Topbar visible={navVisible} show={showNavbar} />}
+          {isNavVisible && <Topbar visible={navVisible} show={showNavbar} />}
         </div>
-        <div className='dashboard-content-container'>
+        <div className=' w-100 dashboard-content-container'>
           <Routes>
-          <Route path='/' element={<Navigate to="/login" />} />
-            <Route path='/login' element={<LoginPage />} />
             <Route path='/Dashboard' element={<HomePage />} />
           </Routes>
         </div>
@@ -32,7 +34,7 @@ function DashboardContent() {
     </div>
   );
 }
-
+ 
 export default function Dashboard() {
   return (
     <BrowserRouter>
@@ -40,4 +42,3 @@ export default function Dashboard() {
     </BrowserRouter>
   );
 }
-

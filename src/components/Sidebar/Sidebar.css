@@ -5,7 +5,6 @@
 
 .sidebar-main-container{
     display: flex;
-     height: 100vh;
 }
 
 .menu1 {
@@ -17,3 +16,5 @@
     background-color: rgb(6, 119, 171);
     color: white;
 }
+
+
