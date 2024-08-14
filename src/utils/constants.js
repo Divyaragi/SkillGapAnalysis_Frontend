@@ -15,9 +15,18 @@ export const sidebarTextSamples = {
     PULL_REQUEST : 'Pull Request',
     REVIEW : 'Review',
     COMMENTS : 'Comments',
+    ADMIN : 'Admin Dashboard',
     LOG_OUT : 'Log Out'     
 }
 
 export const topbarTextSamples = {
    CHECK_LIST : 'Check List'
+}
+
+export const ADMIN_DASHBOARD_STRINGS = {
+  ADD_PROJECT_MANAGER : 'Add Project Manager',
+  SUBMIT:'Submit',
+  CLOSE:'Close',
+  ADD_CHECK_LIST:'Add Check List'
+
 }

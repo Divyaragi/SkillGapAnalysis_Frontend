@@ -1,5 +1,5 @@
 import React from "react";
-import "./LoginPage.css";
+import "./loginPage.css";
 import { loginTextSamples } from "../../utils/constants";
 
 function LoginPage() {
@@ -22,7 +22,7 @@ function LoginPage() {
             <button
               type="button"
               className="microsoft-button bg-hover-btn"
-              onClick={() => (window.location.href = 'http://localhost:3000/login')}
+              onClick={() => (window.location.href = 'http://localhost:3000/authlogin/login')}
             >
               <div className="d-flex align-items-center justify-content-center">
                 <img src={loginTextSamples.MICROSOFT_IMAGE} alt={loginTextSamples.MICROSOFT_ALT} />

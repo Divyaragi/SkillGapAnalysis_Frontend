@@ -4,7 +4,10 @@ import LoginPage from '../login/Loginpage';
 import Navbar from '../Sidebar/Sidebar';
 import HomePage from '../HomePage/HomePage';
 import Topbar from '../Topbar/Topbar';
-import './Dashboard.css'
+import './dashboard.css';
+import AdminDashboard from '../Dashboard/Admin-Dashboard/admin-dashboard'
+import AuthGuard from '../../common/Auth'
+import CheckList from '../../components/Dashboard/Checklist-Dashboard/Check-List'
 
 function DashboardContent() {
   const noNavBarRoutes = ['/login'];
@@ -13,19 +16,24 @@ function DashboardContent() {
   const [navVisible, showNavbar] = useState(false);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex main">
+      <Routes>
+        <Route path='/' element={<Navigate to="/login" />} />
+        <Route path='/login' element={<LoginPage />} />
+      </Routes>
       <div className="col-auto d-flex">
         {isNavVisible && <Navbar visible={navVisible} show={showNavbar} />}
       </div>
-      <div className="w-100">
+      <div className='w-100' >
         <div className='top-bar-card'>
-        {isNavVisible && <Topbar visible={navVisible} show={showNavbar} />}
+          {isNavVisible && <Topbar visible={navVisible} show={showNavbar} />}
         </div>
-        <div className='dashboard-content-container'>
+        <div className=' w-100'>
           <Routes>
-          <Route path='/' element={<Navigate to="/login" />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/Dashboard' element={<HomePage />} />
+            <Route path='/dashboard' element={<HomePage />} />
+            <Route path='/adminbashboard' element={ <AuthGuard><AdminDashboard /></AuthGuard>} />
+            <Route path='/checklist' element={ <AuthGuard><CheckList /></AuthGuard>} />
+
           </Routes>
         </div>
       </div>

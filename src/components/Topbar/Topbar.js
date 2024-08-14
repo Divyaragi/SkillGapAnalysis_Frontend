@@ -18,10 +18,12 @@ const Topbar = () => {
                 <PersonOutlineRoundedIcon/>
                 </div>
             </IconButton>
-            <div className="user-info-container">
+            <div className="user-info-container ms-2">
               <span className="user-name">
+                
               </span>
               <span className="user-role">
+                Admin
               </span>
             </div>
           </div>

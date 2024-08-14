@@ -8,6 +8,7 @@ import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { NavLink } from "react-router-dom";
 import { sidebarTextSamples } from '../../utils/constants';
 const Navbar = () => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -28,13 +29,16 @@ const Navbar = () => {
                         {sidebarTextSamples.PROFILE}
                     </MenuItem>
                     <MenuItem icon={<NoteAddRoundedIcon />}>
-                       {sidebarTextSamples.PULL_REQUEST}
+                        {sidebarTextSamples.PULL_REQUEST}
                     </MenuItem>
                     <MenuItem icon={<PreviewRoundedIcon />}>
                         {sidebarTextSamples.REVIEW}
                     </MenuItem>
                     <MenuItem icon={<CommentRoundedIcon />}>
                         {sidebarTextSamples.COMMENTS}
+                    </MenuItem>
+                    <MenuItem icon={<ReceiptRoundedIcon />}>
+                        {sidebarTextSamples.ADMIN}
                     </MenuItem>
                     <MenuItem icon={<LogoutRoundedIcon color="primary" />}>
                         {sidebarTextSamples.LOG_OUT}
