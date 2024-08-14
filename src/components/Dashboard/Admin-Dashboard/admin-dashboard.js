@@ -67,7 +67,7 @@ function AdminDashboard() {
     };
     return (
         <>
-            <div className='main'>
+            <div className='admindashboardmain'>
                 <div class="d-flex justify-content-between">
                     <div></div>
                     <div></div>

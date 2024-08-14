@@ -8,11 +8,8 @@ import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-<<<<<<< HEAD
 import { NavLink } from "react-router-dom";
-=======
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
->>>>>>> 0f9d6a612a8c69aaed011cf0c2971e1bbd9c9eee
 import { sidebarTextSamples } from '../../utils/constants';
 const Navbar = () => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -56,14 +53,11 @@ const Navbar = () => {
                     <MenuItem icon={<CommentRoundedIcon />}>
                         {sidebarTextSamples.COMMENTS}
                     </MenuItem>
-<<<<<<< HEAD
                     <MenuItem icon={<ReceiptRoundedIcon />}>
-                        {sidebarTextSamples.ADMIN}
-=======
+                        {sidebarTextSamples.ADMIN}</MenuItem>
                     <MenuItem icon={<PlaylistAddCheckIcon />}>
                         {sidebarTextSamples.CHECK_LIST}
->>>>>>> 0f9d6a612a8c69aaed011cf0c2971e1bbd9c9eee
-                    </MenuItem>
+                        </MenuItem>
                     <MenuItem icon={<LogoutRoundedIcon color="primary" />}>
                         {sidebarTextSamples.LOG_OUT}
                     </MenuItem>

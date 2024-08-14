@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MyTableWithModal from '../../Dashboard/Checklist-Dashboard/MyTableWithModal '
+import MyTableWithModal from './MyTableWithModal'
 
 
 function CheckList() {

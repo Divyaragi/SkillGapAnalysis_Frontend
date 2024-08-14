@@ -56,3 +56,8 @@
 .admindashboardmain{
   overflow: hidden;
 }
+
+.btn{
+  border: #949697 1px solid;
+  box-shadow: #949697;
+}

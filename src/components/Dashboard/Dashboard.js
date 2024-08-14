@@ -4,16 +4,10 @@ import LoginPage from '../login/Loginpage';
 import Navbar from '../Sidebar/Sidebar';
 import HomePage from '../HomePage/HomePage';
 import Topbar from '../Topbar/Topbar';
-<<<<<<< HEAD
-import './dashboard.css';
-import AdminDashboard from '../Dashboard/Admin-Dashboard/admin-dashboard'
-import AuthGuard from '../../common/Auth'
-import CheckList from '../../components/Dashboard/Checklist-Dashboard/Check-List'
-
-=======
 import './Dashboard.css';
- 
->>>>>>> 0f9d6a612a8c69aaed011cf0c2971e1bbd9c9eee
+import AdminDashboard from '../../components/Dashboard/Admin-Dashboard/admin-dashboard'
+import AuthGuard from '../../common/Auth' 
+import CheckList from '../../components/Dashboard/Checklist-Dashboard/Check-List'
 function DashboardContent() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation();
@@ -33,18 +27,13 @@ function DashboardContent() {
         <div className='top-bar-card'>
           {isNavVisible && <Topbar visible={navVisible} show={showNavbar} />}
         </div>
-<<<<<<< HEAD
-        <div className=' w-100'>
-          <Routes>
-            <Route path='/dashboard' element={<HomePage />} />
-            <Route path='/adminbashboard' element={ <AuthGuard><AdminDashboard /></AuthGuard>} />
-            <Route path='/checklist' element={ <AuthGuard><CheckList /></AuthGuard>} />
-
-=======
         <div className=' w-100 dashboard-content-container'>
           <Routes>
-            <Route path='/Dashboard' element={<HomePage />} />
->>>>>>> 0f9d6a612a8c69aaed011cf0c2971e1bbd9c9eee
+            <Route path='/dashboard' element={<AuthGuard><HomePage /></AuthGuard>} />
+            <Route path='/admindashboard' element={<AuthGuard><AdminDashboard /></AuthGuard>} />
+            <Route path='/checklist' element={<AuthGuard><CheckList /></AuthGuard>} />
+
+
           </Routes>
         </div>
       </div>
