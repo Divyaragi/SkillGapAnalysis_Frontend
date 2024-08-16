@@ -24,13 +24,13 @@ const MyTableWithModal = () => {
   ];
 
   return (
-    <div>
+    <div className='m-2'>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Technologies</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell className='w-25'>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
