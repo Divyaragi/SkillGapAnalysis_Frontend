@@ -4,7 +4,7 @@ import LoginPage from '../login/Loginpage';
 import Navbar from '../Sidebar/Sidebar';
 import HomePage from '../HomePage/HomePage';
 import Topbar from '../Topbar/Topbar';
-import './Dashboard.css';
+import './dashboard.css';
 import AdminDashboard from '../../components/Dashboard/Admin-Dashboard/admin-dashboard'
 import AuthGuard from '../../common/Auth' 
 import CheckList from '../../components/Dashboard/Checklist-Dashboard/Check-List'
