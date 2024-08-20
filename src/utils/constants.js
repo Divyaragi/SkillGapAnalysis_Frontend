@@ -33,7 +33,7 @@ export const ADMIN_DASHBOARD_STRINGS = {
 export const homePageTextSamples = {
      LINE_GRAPH_DATA : [1, 7, 8, 9, 5, 3, 4, 10, 11, 5, 6, 7],
      LINE_GRAPH_X_AXIS_DATA : ['Jan','Feb', 'Mar', 'Apr','May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov','Dec'],
-     BAR_GRAPH_DATA : [10, 15, 7, 4, 6, 8, 7],
-     BAR_GRAPH_X_AXIS_DATA : ['Node Js','React Js','Angular','Java','Spring Boot','CDE','Data',],
+     BAR_GRAPH_DATA : [10, 15, 7, 4],
+     BAR_GRAPH_X_AXIS_DATA : ['Ranjith', 'Kiruba', 'Jani', 'Rajesh'],
      PIE_CHART_DATA : [{ label: 'Project Manager', value: 400 },{ label: 'User', value: 300 },]
 }

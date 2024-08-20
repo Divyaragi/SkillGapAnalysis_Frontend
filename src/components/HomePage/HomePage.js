@@ -11,7 +11,7 @@ function HomePage() {
     <div className='dasboard-main-container p-2'>
       <div className='dasboard-container container-fluid'>
         <div className='top-charts-container row'>
-          <div className='col-12 col-md-6 mb-2'>
+          {/* <div className='col-12 col-md-6 mb-2'>
             <div className='card card-container shadow'>
               <PieChart
                 series={[
@@ -33,13 +33,13 @@ function HomePage() {
                 }}
               />
             </div>
-          </div>
+          </div> */}
           <div className='col-12 col-md-6 mb-2'>
             <div className='card card-container shadow'>
               <BarChart
                 className='chart-styling'
                 series={[
-                  { data: homePageTextSamples.BAR_GRAPH_DATA, label: 'Check List', id: 'pvId', },
+                  { data: homePageTextSamples.BAR_GRAPH_DATA, label: 'No of Projects', id: 'pvId', },
                 ]}
                 xAxis={[{ data: homePageTextSamples.BAR_GRAPH_X_AXIS_DATA, scaleType: 'band', disableLine: true, disableTicks: true }]}
                 yAxis={[{
