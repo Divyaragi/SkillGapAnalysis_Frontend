@@ -1,9 +1,8 @@
-
 .sidebar-container {
     background: #a8d5e5;
 }
 
-.sidebar-main-container{
+.sidebar-main-container {
     display: flex;
 }
 
@@ -17,4 +16,9 @@
     color: white;
 }
 
-
+.navigation {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}

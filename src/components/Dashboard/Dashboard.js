@@ -8,6 +8,8 @@ import './Dashboard.css';
 import AdminDashboard from '../../components/Dashboard/Admin-Dashboard/admin-dashboard'
 import AuthGuard from '../../common/Auth' 
 import CheckList from '../../components/Dashboard/Checklist-Dashboard/Check-List'
+import UserDashboard from '../../components/Dashboard/User-Dashboard/User-Dashboard'
+import ProjectManagerDashboard from '../../components/Dashboard/Project-Managaer-Dashboard/Project-Manager-Dashbaord'
 function DashboardContent() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation();
@@ -32,6 +34,10 @@ function DashboardContent() {
             <Route path='/dashboard' element={<AuthGuard><HomePage /></AuthGuard>} />
             <Route path='/admindashboard' element={<AuthGuard><AdminDashboard /></AuthGuard>} />
             <Route path='/checklist' element={<AuthGuard><CheckList /></AuthGuard>} />
+            <Route path='/userdashboard' element={<AuthGuard><UserDashboard /></AuthGuard>} />
+            <Route path='/projectmanagerdashboard' element={<AuthGuard><ProjectManagerDashboard /></AuthGuard>} />
+
+
 
 
           </Routes>

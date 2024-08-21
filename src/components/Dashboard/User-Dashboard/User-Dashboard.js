@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { ADMIN_DASHBOARD_STRINGS } from '../../../utils/constants';
+import { USER_DASHBOARD_STRINGS } from '../../../utils/constants';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,29 +11,32 @@ import TableRow from '@mui/material/TableRow';
 import { Box } from '@mui/material';
 import axiosInstance from '../../../service/axiosConfig';
 
-function AdminDashboard() {
+function UserDashboard() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
-    const [userRows, setUserRows] = useState([]);
-    const [totalUserRows, setTotalUserRows] = useState(0);
-
-
 
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [department, setDepartment] = useState('');
     const [errors, setErrors] = useState({});
 
     const columns = [
         { id: 'user_id', label: 'User ID' },
         { id: 'user_name', label: 'User Name' },
         { id: 'email_address', label: 'Email Address' },
-        // { id: 'usermap.role_id', label: 'Role ID' }
+        { id: 'roles', label: 'Roles' }
     ];
 
     const validate = () => {
         let tempErrors = {};
         tempErrors.name = name ? "" : "This field is required.";
+        tempErrors.email = email ? "" : "This field is required.";
+        if (email) {
+            tempErrors.email = /\S+@\S+\.\S+/.test(email) ? "" : "Email is not valid.";
+        }
+        tempErrors.department = department ? "" : "This field is required.";
         setErrors(tempErrors);
         return Object.values(tempErrors).every(x => x === "");
     };
@@ -42,34 +45,20 @@ function AdminDashboard() {
         e.preventDefault();
         if (validate()) {
             // onSubmit(managerData);
+            // Clear the form
             setName('');
+            setEmail('');
+            setDepartment('');
         }
     };
-
-    useEffect(() => {
-
-      
-        axiosInstance
-            .get('users/get-projectManager')
-            .then((response) => {
-                const { data, totalPecords } = response.data.response;
-                setRows(data);
-                console.log("response", response.data);
-
-                setTotalRows(totalPecords);
-            })
-            .catch((error) => {
-                console.error('API call failed:', error);
-            });
-    }, [page, rowsPerPage]);
 
     useEffect(() => {
         axiosInstance
             .get('users/get-userList')
             .then((response) => {
                 const { data, totalPecords } = response.data.responses;
-                setUserRows(data);
-                setTotalUserRows(totalPecords);
+                setRows(data);
+                setTotalRows(totalPecords);
             })
             .catch((error) => {
                 console.error('API call failed:', error);
@@ -93,7 +82,7 @@ function AdminDashboard() {
                     <div></div>
                     <div className='mt-4'>
                         <button type="button" className="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#addprojectmanager">
-                            {ADMIN_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}
+                            {USER_DASHBOARD_STRINGS.ADD_USER}
                         </button>
                     </div>
                 </div>
@@ -119,7 +108,10 @@ function AdminDashboard() {
                                     .map((row) => (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row.user_id}>
                                             {columns.map((column) => {
-                                                let value = column.id.split('.').reduce((o, i) => o[i], row);
+                                                let value = row[column.id];
+                                                if (column.id === 'roles' && Array.isArray(value)) {
+                                                    value = value.map(role => role.role_name).join(', ');
+                                                }
                                                 return (
                                                     <TableCell key={column.id} align="left">
                                                         {value !== null ? value : 'N/A'}
@@ -159,9 +151,29 @@ function AdminDashboard() {
                                     sx={{ display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto' }}
                                 >
                                     <TextField
-                                        label="Department"
+                                        label="Name"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
+                                        error={!!errors.name}
+                                        helperText={errors.name}
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        label="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        error={!!errors.email}
+                                        helperText={errors.email}
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                    />
+                                    <TextField
+                                        label="Department"
+                                        value={department}
+                                        onChange={(e) => setDepartment(e.target.value)}
                                         error={!!errors.department}
                                         helperText={errors.department}
                                         variant="outlined"
@@ -171,8 +183,8 @@ function AdminDashboard() {
                                 </Box>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{ADMIN_DASHBOARD_STRINGS.CLOSE}</button>
-                                <button type="submit" className="btn btn-primary">{ADMIN_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{USER_DASHBOARD_STRINGS.CLOSE}</button>
+                                <button type="button" className="btn btn-primary" onClick={handleSubmit}>{USER_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}</button>
                             </div>
                         </div>
                     </div>
@@ -182,4 +194,4 @@ function AdminDashboard() {
     );
 }
 
-export default AdminDashboard;
+export default UserDashboard;

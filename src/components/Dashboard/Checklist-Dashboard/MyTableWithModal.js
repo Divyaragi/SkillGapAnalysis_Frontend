@@ -1,10 +1,31 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Modal, Box, Typography, Button } from '@mui/material';
-import ModeOutlined from '@mui/icons-material/Mode';
-import EditableTable from './EditableTable'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Modal,
+  Box,
+  TablePagination,
+  Button,
+} from '@mui/material';
+import EditableTable from './EditableTable';
+
 const MyTableWithModal = () => {
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
+
+  const rows = [
+    { id: 1, Technologies: 'Angular' },
+    { id: 2, Technologies: 'React Js' },
+    { id: 3, Technologies: 'Node Js' },
+    { id: 4, Technologies: 'Vue Js' },
+  ];
 
   const handleOpen = (data) => {
     setSelectedData(data);
@@ -16,12 +37,16 @@ const MyTableWithModal = () => {
     setSelectedData(null);
   };
 
-  const rows = [
-    { id: 1,  Technologies:'Angular' },
-    { id: 2,   Technologies:'React Js' },
-    { id: 3,   Technologies:'Node Js' }, 
-     { id: 4,  Technologies:'Vue Js' },
-  ];
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginatedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <div className='m-2'>
@@ -34,14 +59,24 @@ const MyTableWithModal = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {paginatedRows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell onClick={() => handleOpen(row)}>{row.Technologies}</TableCell>
-                <TableCell onClick={() => handleOpen(row)}> <Button className='btn btn-primary'>View</Button></TableCell>
+                <TableCell>{row.Technologies}</TableCell>
+                <TableCell>
+                  <Button className='btn btn-primary' onClick={() => handleOpen(row)}>View</Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          component="div"
+          count={rows.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Modal
@@ -62,7 +97,7 @@ const MyTableWithModal = () => {
             p: 4,
           }}
         >
-         <EditableTable/>
+          {selectedData && <EditableTable data={selectedData} />}
         </Box>
       </Modal>
     </div>

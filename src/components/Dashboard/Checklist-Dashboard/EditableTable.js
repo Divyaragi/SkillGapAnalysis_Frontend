@@ -68,7 +68,7 @@ const EditableTable = () => {
                                 item.rule
                             )}
                         </td>
-                        <td className='w-25' >
+                        <td className='w-50' >
                             {editMode === item.id ? (
                                 <>
                                     {isModified && (
@@ -93,18 +93,21 @@ const EditableTable = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Button
-                                        className="btn me-2"
-                                        onClick={() => handleEditClick(item.id, item.rule)}
-                                    >
-                                        <ModeOutlined />
-                                    </Button>
-                                    <Button
-                                        className="btn ms-2"
-                                        onClick={() => handleRemove(item.id)}
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
+                                    <div className='d-flex'>
+                                        <Button
+                                            className="btn me-2"
+                                            onClick={() => handleEditClick(item.id, item.rule)}
+                                        >
+                                            <ModeOutlined />
+                                        </Button>
+                                        <Button
+                                            className="btn ms-2"
+                                            onClick={() => handleRemove(item.id)}
+                                        >
+                                            <DeleteIcon />
+                                        </Button>
+                                    </div>
+
                                 </>
                             )}
                         </td>
