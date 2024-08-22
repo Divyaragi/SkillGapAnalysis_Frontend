@@ -1,45 +1,39 @@
 import React from "react";
+import "./loginPage.css";
+import { loginTextSamples } from "../../utils/constants";
 
-export default function Loginpage() {
+function LoginPage() {
   return (
     <>
-    <div className="container-fluid" style={{ height: "100vh" }}>
-      <div className="row no-gutter h-100">
-        <div className="col-md-6 d-flex flex-column justify-content-center align-items-center">
-          {/* <img src="LinkSphere.png" className="link-sphere-image" alt="Link Sphere" /> */}
-          <div className ="login-microsoft">
-            <h4 className="login-text">login</h4>
+      <div className="login-main-container" >
+        <div className="background-login-logo-container">
+          <div className="background-login-logo">
+            <img src={loginTextSamples.BILVANTIS_LOGO_IMAGE} alt={loginTextSamples.BILVANTIS_LOGO_ALT} className="bilvantis-logo mt-2" />
+          </div>
+        </div>
+        <div className="d-flex flex-column align-items-center justify-content-center login-container">
+          <div className="login-microsoft-card">
+            <h1 className="login-text">{loginTextSamples.LOGIN}</h1>
+            <div class="d-flex align-items-center w-100 mt-30 mb-10">
+              <div class="line"></div>
+              <p class="text-small text-secondary px-3">{loginTextSamples.LOGIN_WITH}</p>
+              <div class="line"></div>
+            </div>
             <button
               type="button"
               className="microsoft-button bg-hover-btn"
-              onClick={() => (window.location.href = 'http://localhost:3000/login')}
+              onClick={() => (window.location.href = 'http://localhost:1012/authlogin/login')}
             >
               <div className="d-flex align-items-center justify-content-center">
-                <img src="https://cdn.kekastatic.net/login/v/M178_2024.06.15.1/images/logos/microsoft.svg" alt="Microsoft Logo" />
-                <p className="microsoft-logo">Microsoft</p>
+                <img src={loginTextSamples.MICROSOFT_IMAGE} alt={loginTextSamples.MICROSOFT_ALT} />
+                <p className="microsoft-logo">{loginTextSamples.MICROSOFT_TEXT}</p>
               </div>
             </button>
           </div>
         </div>
-
-        <div className="col-md-6 d-flex flex-column justify-content-center align-items-center bg-image main-logo">
-          <div className="white-log-setting">
-            <img src="BilvantisWhiteLogo.png" className="bilvantis-white-logo" alt="Bilvantis White Logo" />
-          </div>
-          <img src="ConnectionLoginImage.png" className="connecting-logo h-75" alt="Connection Login" />
-          <div className="background-image-text">
-            <div className="application-text-div">
-              <h1 className="application-text">
-                Connect with every application
-              </h1>
-              <p className="custom-text">
-                Everything you need in an easily customizable dashboard
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-  </>
-    );
+    </>
+  );
 }
+
+export default LoginPage;

@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+
+.btn-primary,secondary{
+  background-color: rgb(6, 119, 171);
+  border-color: unset;
+}
+.secondary,btn-primary:hover{
+  background-color: #055C86;
+}
+.secondary,btn-secondary{
+  background-color: rgb(197, 200, 202);
+  border-color: unset;
+
+}
+.secondary,btn-secondary:hover{
+  background-color: rgb(203, 213, 218);
+}
+.admindashboardmain{
+  overflow: hidden;
+}
+
+.btn{
+  border: #949697 1px solid;
+  box-shadow: #949697;
+}

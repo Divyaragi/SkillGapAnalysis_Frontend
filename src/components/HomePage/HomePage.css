@@ -1,0 +1,18 @@
+.dasboard-container{
+    width: 100%;
+}
+
+.top-charts-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-container{
+    border: none !important;
+    width: 100%;
+}
+
+.chart-styling{
+   min-height: 300px !important;
+    width: 100% !important;
+}

@@ -1,0 +1,24 @@
+.sidebar-container {
+    background: #a8d5e5;
+}
+
+.sidebar-main-container {
+    display: flex;
+}
+
+.menu1 {
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.first-menu-item {
+    background-color: rgb(5, 92, 134);
+    color: white;
+}
+
+.navigation {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
