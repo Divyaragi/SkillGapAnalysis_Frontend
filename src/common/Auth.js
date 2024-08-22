@@ -6,9 +6,9 @@ const AuthGuard = ({ children }) => {
   const authToken = Cookies.get('result');
   const isAuthenticated = !!authToken;
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return children;
 };

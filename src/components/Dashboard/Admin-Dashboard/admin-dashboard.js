@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Box, Button, Modal, Typography, FormHelperText, InputLabel, FormControl } from '@mui/material';
+import axiosInstance from '../../../service/axiosConfig';
 import { ADMIN_DASHBOARD_STRINGS } from '../../../utils/constants';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,9 +13,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Box } from '@mui/material';
-import axiosInstance from '../../../service/axiosConfig';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function AdminDashboard() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -18,44 +22,25 @@ function AdminDashboard() {
     const [totalRows, setTotalRows] = useState(0);
     const [userRows, setUserRows] = useState([]);
     const [totalUserRows, setTotalUserRows] = useState(0);
-
-
-
-    const [name, setName] = useState('');
+    const [selectedUser, setSelectedUser] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
     const [errors, setErrors] = useState({});
 
     const columns = [
         { id: 'user_id', label: 'User ID' },
         { id: 'user_name', label: 'User Name' },
         { id: 'email_address', label: 'Email Address' },
-        // { id: 'usermap.role_id', label: 'Role ID' }
     ];
 
-    const validate = () => {
-        let tempErrors = {};
-        tempErrors.name = name ? "" : "This field is required.";
-        setErrors(tempErrors);
-        return Object.values(tempErrors).every(x => x === "");
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validate()) {
-            // onSubmit(managerData);
-            setName('');
-        }
-    };
-
     useEffect(() => {
+        setSelectedUser(null);
 
-      
         axiosInstance
             .get('users/get-projectManager')
             .then((response) => {
                 const { data, totalPecords } = response.data.response;
                 setRows(data);
-                console.log("response", response.data);
-
                 setTotalRows(totalPecords);
             })
             .catch((error) => {
@@ -64,6 +49,7 @@ function AdminDashboard() {
     }, [page, rowsPerPage]);
 
     useEffect(() => {
+        setSelectedUser(null);
         axiosInstance
             .get('users/get-userList')
             .then((response) => {
@@ -85,6 +71,75 @@ function AdminDashboard() {
         setPage(0);
     };
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false)
+        setErrors({})
+        setSelectedUser(null);
+    };
+
+    const handleScroll = (event) => {
+        const bottom = event.target.scrollHeight === event.target.scrollTop + event.target.clientHeight;
+        if (bottom && !loading && userRows.length < totalUserRows) {
+            setLoading(true);
+            axiosInstance
+                .get('users/get-userList', { params: { page: page + 1, rowsPerPage } })
+                .then((response) => {
+                    const { data } = response.data.responses;
+                    setUserRows(prev => [...prev, ...data]);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('API call failed:', error);
+                    setLoading(false);
+                });
+        }
+    };
+
+    const validate = () => {
+        let tempErrors = {};
+        if (!selectedUser) {
+            tempErrors.selectedUser = "User selection is required.";
+        }
+        setErrors(tempErrors);
+        return Object.values(tempErrors).every(x => x === "");
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const payload = {
+            'user_id': selectedUser,
+            'role_id': 1
+        }
+        if (validate()) {
+            setSelectedUser('');
+            setSelectedUser('');
+            axiosInstance.post('users/role-assigned', payload)
+                .then((response) => {
+                    console.log("response", response.data.message
+                        );
+                    toast.success(response.data.message);
+                    // setOpen(false);
+                    setTimeout(() => {
+                        document.querySelector('.btn-close').click();
+                    }, 2000);
+                })
+                .catch((error) => {
+                    toast.error(error);
+                });
+        }
+
+
+
+    };
+
+    const handleSelectChange = (e) => {
+        setSelectedUser(e.target.value);
+        if (e.target.value) {
+            setErrors(prevErrors => ({ ...prevErrors, selectedUser: '' }));
+        }
+    };
+
     return (
         <>
             <div className='admindashboardmain'>
@@ -92,9 +147,9 @@ function AdminDashboard() {
                     <div></div>
                     <div></div>
                     <div className='mt-4'>
-                        <button type="button" className="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#addprojectmanager">
+                        <Button variant="contained" color="primary" onClick={handleOpen}>
                             {ADMIN_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}
-                        </button>
+                        </Button>
                     </div>
                 </div>
                 <div className='m-3'>
@@ -103,11 +158,7 @@ function AdminDashboard() {
                             <TableHead>
                                 <TableRow>
                                     {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align="left"
-                                            style={{ minWidth: 150 }}
-                                        >
+                                        <TableCell key={column.id} align="left" style={{ minWidth: 150 }}>
                                             {column.label}
                                         </TableCell>
                                     ))}
@@ -145,38 +196,71 @@ function AdminDashboard() {
                         />
                     </TableContainer>
                 </div>
-                <div className="modal fade" id="addprojectmanager" tabIndex="-1" aria-hidden="true">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">Add Manager</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <Box
-                                    component="form"
-                                    onSubmit={handleSubmit}
-                                    sx={{ display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto' }}
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="add-project-manager-modal"
+                    aria-describedby="modal-to-add-project-manager"
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 400,
+                            bgcolor: 'background.paper',
+                            border: '2px solid #000',
+                            boxShadow: 24,
+                            p: 4,
+                        }}
+                    >
+                        <Typography variant="h6" component="h2" gutterBottom>
+                            Add Manager
+                        </Typography>
+                        <Box
+                            component="form"
+                            onSubmit={handleSubmit}
+                            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                        >
+                            <FormControl fullWidth variant="outlined" error={!!errors.selectedUser}>
+                                <InputLabel>User</InputLabel>
+                                <Select
+                                    label="User"
+                                    value={selectedUser}
+                                    onChange={handleSelectChange}
+                                    onScroll={handleScroll}
+                                    MenuProps={{
+                                        PaperProps: { style: { maxHeight: 200 } },
+                                    }}
                                 >
-                                    <TextField
-                                        label="Department"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        error={!!errors.department}
-                                        helperText={errors.department}
-                                        variant="outlined"
-                                        fullWidth
-                                        margin="normal"
-                                    />
-                                </Box>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">{ADMIN_DASHBOARD_STRINGS.CLOSE}</button>
-                                <button type="submit" className="btn btn-primary">{ADMIN_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    <MenuItem value="" disabled>Select a user</MenuItem>
+                                    {userRows.map((user) => (
+                                        <MenuItem key={user.user_id} value={user.user_id}>
+                                            {user.user_name} - {user.email_address}
+                                        </MenuItem>
+                                    ))}
+                                    {loading && (
+                                        <MenuItem disabled>
+                                            <CircularProgress size={24} />
+                                        </MenuItem>
+                                    )}
+                                </Select>
+                                {errors.selectedUser && (
+                                    <FormHelperText>{errors.selectedUser}</FormHelperText>
+                                )}
+                            </FormControl>
+                            <Box sx={{ mt: 2, textAlign: 'right' }}>
+                                <Button variant="outlined" color="secondary" onClick={handleClose}>
+                                    {ADMIN_DASHBOARD_STRINGS.CLOSE}
+                                </Button>
+                                <Button type="submit" variant="contained" color="primary" sx={{ ml: 2 }}>
+                                    {ADMIN_DASHBOARD_STRINGS.ADD_PROJECT_MANAGER}
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Modal>
             </div>
         </>
     );

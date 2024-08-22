@@ -1,10 +1,12 @@
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
+const token = Cookies.get('result')
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:1012/v0.1/',
   headers: {
     'Content-Type': 'application/json',
-    'user_id': '1'
+    'user_id': '1',
+    'authorization': token?JSON.parse(Cookies.get('result')).accessToken:''
   },
 });
 

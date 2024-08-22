@@ -22,7 +22,7 @@ function LoginPage() {
             <button
               type="button"
               className="microsoft-button bg-hover-btn"
-              onClick={() => (window.location.href = 'http://localhost:3000/authlogin/login')}
+              onClick={() => (window.location.href = 'http://localhost:1012/authlogin/login')}
             >
               <div className="d-flex align-items-center justify-content-center">
                 <img src={loginTextSamples.MICROSOFT_IMAGE} alt={loginTextSamples.MICROSOFT_ALT} />
