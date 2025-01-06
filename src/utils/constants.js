@@ -11,17 +11,17 @@ export const loginTextSamples = {
 export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
     DASHBOARD : 'Dashboard',
-    PROFILE : 'Profile',
+    PROFILE : 'Table',
     PULL_REQUEST : 'Pull Request',
     REVIEW : 'Review',
     COMMENTS : 'Comments',
-    ADMIN : 'Admin Dashboard',
-    CHECK_LIST : 'Check List',
+    ADMIN : 'Second Table',
+    CHECK_LIST : 'Third Table',
     LOG_OUT : 'Log Out'     
 }
 
 export const topbarTextSamples = {
-   CHECK_LIST : 'Check List'
+   CHECK_LIST : 'TAbles'
 }
 
 export const ADMIN_DASHBOARD_STRINGS = {

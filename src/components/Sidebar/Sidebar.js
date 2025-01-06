@@ -44,23 +44,13 @@ const Navbar = () => {
                     <MenuItem icon={<ReceiptRoundedIcon />} >
                         {sidebarTextSamples.PROFILE}
                     </MenuItem>
-                    <MenuItem icon={<NoteAddRoundedIcon />}>
-                        {sidebarTextSamples.PULL_REQUEST}
-                    </MenuItem>
-                    <MenuItem icon={<PreviewRoundedIcon />}>
-                        {sidebarTextSamples.REVIEW}
-                    </MenuItem>
-                    <MenuItem icon={<CommentRoundedIcon />}>
-                        {sidebarTextSamples.COMMENTS}
-                    </MenuItem>
+                    
                     <MenuItem icon={<ReceiptRoundedIcon />}>
                         {sidebarTextSamples.ADMIN}</MenuItem>
                     <MenuItem icon={<PlaylistAddCheckIcon />}>
                         {sidebarTextSamples.CHECK_LIST}
                         </MenuItem>
-                    <MenuItem icon={<LogoutRoundedIcon color="primary" />}>
-                        {sidebarTextSamples.LOG_OUT}
-                    </MenuItem>
+                  
                     <div>
                     </div>
                 </Menu>
