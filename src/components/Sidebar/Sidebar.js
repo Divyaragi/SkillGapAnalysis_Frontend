@@ -8,6 +8,7 @@ import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { sidebarTextSamples } from '../../utils/constants';
@@ -16,6 +17,13 @@ const Navbar = () => {
     const handleIconClick = () => {
         setSidebarCollapsed(!sidebarCollapsed);
     };
+
+    const navigate = useNavigate();
+
+    const handleNavigation = (path) => {
+      navigate(path);
+    };
+
     return (
         <div className='sidebar-main-container'>
             <Sidebar className="sidebar-container" collapsed={sidebarCollapsed} >
@@ -35,17 +43,21 @@ const Navbar = () => {
                             }
                         },
                     }}>
-                    <MenuItem className='first-menu-item' icon={<MenuRoundedIcon />} onClick={handleIconClick} >
+                    <MenuItem className='first-menu-item' icon={<MenuRoundedIcon />} 
+                    onClick={handleIconClick} >
                         {sidebarTextSamples.BILVANTIS_TEXT}
                     </MenuItem>
-                    <MenuItem icon={<GridViewRoundedIcon />}>
+                    <MenuItem icon={<GridViewRoundedIcon />} 
+                    onClick={() => handleNavigation('/dashboard')}>
                         {sidebarTextSamples.DASHBOARD}
                     </MenuItem>
-                    <MenuItem icon={<ReceiptRoundedIcon />} >
+                    <MenuItem icon={<ReceiptRoundedIcon />} 
+                     onClick={() => handleNavigation('/dashboard-two')}>
                         {sidebarTextSamples.PROFILE}
                     </MenuItem>
                     
-                    <MenuItem icon={<ReceiptRoundedIcon />}>
+                    <MenuItem icon={<NoteAddRoundedIcon />}
+                     onClick={() => handleNavigation('/dashboard-three')}>
                         {sidebarTextSamples.ADMIN}</MenuItem>
                     <MenuItem icon={<PlaylistAddCheckIcon />}>
                         {sidebarTextSamples.CHECK_LIST}

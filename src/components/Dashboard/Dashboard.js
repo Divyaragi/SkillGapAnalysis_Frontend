@@ -5,7 +5,9 @@ import Navbar from '../Sidebar/Sidebar';
 import HomePage from '../HomePage/HomePage';
 import Topbar from '../Topbar/Topbar';
 import './dashboard.css';
-import AuthGuard from '../../common/Auth' 
+import AuthGuard from '../../common/Auth' ;
+import DashboardTwo from '../DashboardTwo';
+import DashboardThree from '../DashboardThree';
 function DashboardContent() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation();
@@ -24,6 +26,8 @@ function DashboardContent() {
         <div className=' w-100 dashboard-content-container'>
           <Routes>
             <Route path='/dashboard' element={<HomePage />} />
+            <Route path='/dashboard-two' element={<DashboardTwo />} />
+            <Route path='/dashboard-three' element={<DashboardThree />} />
           </Routes>
         </div>
       </div>

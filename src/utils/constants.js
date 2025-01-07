@@ -21,7 +21,7 @@ export const sidebarTextSamples = {
 }
 
 export const topbarTextSamples = {
-   CHECK_LIST : 'TAbles'
+   CHECK_LIST : 'Tailwind CSS'
 }
 
 export const ADMIN_DASHBOARD_STRINGS = {
