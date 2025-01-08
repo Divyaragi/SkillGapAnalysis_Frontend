@@ -1,17 +1,4 @@
-// import React, { useState } from 'react';
-// import { homePageTextSamples } from '../../utils/constants';
 
-// import './HomePage.css';
-
-// function HomePage() {
-//   return (
-//     <div className='dasboard-main-container p-2'>
-//       <h1>Dashboard 1</h1>
-//     </div>
-//   );
-// }
-
-// export default HomePage;
 
 import { useState, useMemo } from "react";
 const products = [
@@ -397,7 +384,7 @@ const HomePage = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="responsive-heading">
               {rowsToShow?.map((data, index) => (
                 <tr
                   className={`${

@@ -1,13 +1,4 @@
-// import React from "react";
-
-// function DashboardThree() {
-//     return (
-//         <div>
-//         <h1>DashboardThree</h1>
-//         </div>
-//     );
-//     }
-// export default DashboardThree;    
+   
 
 import { useState, useMemo, useEffect } from "react";
 const products = [

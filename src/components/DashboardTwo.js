@@ -38,7 +38,7 @@ const DashboardTwo = () => {
     <div className="min-h-full bg-white flex  items-center justify-center">
       <div >
         <div className="w-full  px-2 max-w-[453px] mx-auto">
-          <h1 className="text-xl sm:text-2xl font-medium mb-2">
+          <h1 className=" responsive-heading font-medium mb-2">
             Tailwind Mobile Responsive Table
           </h1>
         </div>
