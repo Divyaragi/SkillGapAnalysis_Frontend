@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./Sidebar.css"
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import GroupIcon from '@mui/icons-material/Group';
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
@@ -12,8 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { sidebarTextSamples } from '../../utils/constants';
+import myImage from '../../assets/images/prospect.png';
+import logoImage from '../../assets/sidebar_logo.png'
 const Navbar = () => {
-    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
     const handleIconClick = () => {
         setSidebarCollapsed(!sidebarCollapsed);
     };
@@ -45,24 +48,27 @@ const Navbar = () => {
                     }}>
                     <MenuItem className='first-menu-item' icon={<MenuRoundedIcon />} 
                     onClick={handleIconClick} >
-                        {sidebarTextSamples.BILVANTIS_TEXT}
+                        <img src={logoImage} alt="Menu Icon"  />
+
                     </MenuItem>
-                    <MenuItem icon={<GridViewRoundedIcon />} 
+                    {/* <MenuItem icon={<GridViewRoundedIcon />} 
                     onClick={() => handleNavigation('/dashboard')}>
                         {sidebarTextSamples.DASHBOARD}
-                    </MenuItem>
-                    <MenuItem icon={<ReceiptRoundedIcon />} 
-                     onClick={() => handleNavigation('/dashboard-two')}>
-                        {sidebarTextSamples.PROFILE}
+                    </MenuItem> */}
+                    <MenuItem  className='first-menu-item' icon={<ReceiptRoundedIcon />} 
+                    onClick={() => handleNavigation('/skills')}
+                    >
+                        {sidebarTextSamples.SKILLL}
                     </MenuItem>
                     
-                    <MenuItem icon={<NoteAddRoundedIcon />}
-                     onClick={() => handleNavigation('/dashboard-three')}>
-                        {sidebarTextSamples.ADMIN}</MenuItem>
-                    <MenuItem icon={<PlaylistAddCheckIcon />}>
+                    <MenuItem className='first-menu-item' icon={<GroupIcon />}
+                     onClick={() => handleNavigation('users')}
+                     >
+                        {sidebarTextSamples.USER}</MenuItem>
+                    {/* <MenuItem icon={<PlaylistAddCheckIcon />}>
                         {sidebarTextSamples.CHECK_LIST}
                         </MenuItem>
-                  
+                   */}
                     <div>
                     </div>
                 </Menu>

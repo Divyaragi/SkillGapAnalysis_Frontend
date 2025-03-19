@@ -11,11 +11,13 @@ export const loginTextSamples = {
 export const sidebarTextSamples = {
     BILVANTIS_TEXT : 'BILVANTIS.IO',
     DASHBOARD : 'Dashboard',
+    SKILLL:"Skill Library",
     PROFILE : 'Table',
     PULL_REQUEST : 'Pull Request',
     REVIEW : 'Review',
     COMMENTS : 'Comments',
     ADMIN : 'Second Table',
+    USER:"Users",
     CHECK_LIST : 'Third Table',
     LOG_OUT : 'Log Out'     
 }

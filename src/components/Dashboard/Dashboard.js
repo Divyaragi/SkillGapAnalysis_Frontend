@@ -25,8 +25,8 @@ function DashboardContent() {
         </div>
         <div className=' w-100 dashboard-content-container'>
           <Routes>
-            <Route path='/dashboard' element={<HomePage />} />
-            <Route path='/dashboard-two' element={<DashboardTwo />} />
+            <Route path='/skills' element={<HomePage />} />
+            <Route path='/users' element={<DashboardTwo />} />
             <Route path='/dashboard-three' element={<DashboardThree />} />
           </Routes>
         </div>

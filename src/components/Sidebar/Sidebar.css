@@ -1,7 +1,9 @@
 
-.sidebar-container {
-    background: #a8d5e5;
+
+.css-dip3t8 {
+    background-color: #013579 !important;
 }
+
 
 .sidebar-main-container{
     display: flex;
@@ -13,7 +15,7 @@
 }
 
 .first-menu-item {
-    background-color: rgb(6, 119, 171);
+    background-color: 013579;
     color: white;
 }
 
