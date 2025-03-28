@@ -37,3 +37,6 @@
   background: transparent;
   margin-top: 10px;
 }
+.read-only-input {
+  cursor: not-allowed;
+}

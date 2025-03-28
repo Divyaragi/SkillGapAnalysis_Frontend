@@ -138,7 +138,7 @@ const AddRatingsManager = ({ onClose, refreshSkills, user_id, onRatingIdUpdate }
 
                         >
                             <option value="">Select Rating</option>
-                            {[1, 2, 3, 4, 5].map((num) => (
+                            {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((num) => (
                                 <option key={num} value={num}>
                                     {num}
                                 </option>
@@ -159,7 +159,7 @@ const AddRatingsManager = ({ onClose, refreshSkills, user_id, onRatingIdUpdate }
                             className="border p-2 rounded w-full text-black"
                         >
                             <option value="">Select Rating</option>
-                            {[1, 2, 3, 4, 5].map((num) => (
+                            {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((num) => (
                                 <option key={num} value={num}>
                                     {num}
                                 </option>

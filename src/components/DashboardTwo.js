@@ -535,7 +535,7 @@ console.log("rowData88888888888",rowData);
         onFirstDataRendered={onFirstDataRendered}
       />
     </div>
-    <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
+    {/* <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
       <button
         onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
         style={{ background: hasPrev ? "#013579" : "gray", color: "white", padding: "5px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
@@ -551,7 +551,7 @@ console.log("rowData88888888888",rowData);
       >
         Next
       </button>
-    </div>
+    </div> */}
   </div>
 </div>        )}
     </>

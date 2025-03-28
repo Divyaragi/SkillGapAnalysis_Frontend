@@ -159,15 +159,18 @@ const TrainingsManager = () => {
                     skill_id: training.skill?.skill_id || null,
                 }));
                 setRowData(formattedData);
-                setHasNext(result.data.skills.length === 10);
+    
+                // Fix pagination logic
+                setHasNext((page * 10) < result.data.total);
                 setHasPrev(page > 1);
-                setTotalPages(result.data.pagination.totalPages || 1);
-
+                setTotalPages(Math.ceil(result.data.total / 10));
             }
         } catch (error) {
             console.error("Error fetching skills:", error);
         }
-    }, [page, searchQuery]);
+    }, [page]);
+    
+    
 
     useEffect(() => {
         fetchSkills();
@@ -184,10 +187,12 @@ const TrainingsManager = () => {
     const onFirstDataRendered = useCallback((params) => {
         params.api.sizeColumnsToFit();
     }, []);
+    console.log("total pages********",totalPages);
+    
     return (
         <>
             <div className="flex justify-between ">
-                <h1 className="text-xl font-semibold ml-2">Trainigs</h1>
+                <h1 className="text-xl font-semibold ml-2">Trainings</h1>
                 {/* <div className="search-container mr-[5rem]">
                     <img src={searchIcon} alt="Search" className="search-icon" />
                     <input type="text" placeholder="Search..." className="search-input" value={searchQuery}

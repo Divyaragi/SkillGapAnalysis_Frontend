@@ -94,7 +94,7 @@ const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
                                 setSkillName(e.target.value);
                                 setError("");
                             }}
-                            className="border p-2 rounded w-full"
+                            className="border p-2 rounded w-full bg-gray-200 text-gray-500 read-only-input"
                             required
                         />
                     </div>
@@ -112,7 +112,7 @@ const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
                             required
                         >
                             <option value="">Select</option>
-                            {[1, 2, 3, 4, 5].map((rating) => (
+                            {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((rating) => (
                                 <option key={rating} value={rating}>
                                     {rating}
                                 </option>
@@ -134,7 +134,7 @@ const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
                             required
                         >
                             <option value="">Select</option>
-                            {[1, 2, 3, 4, 5].map((rating) => (
+                            {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((rating) => (
                                 <option key={rating} value={rating}>
                                     {rating}
                                 </option>
