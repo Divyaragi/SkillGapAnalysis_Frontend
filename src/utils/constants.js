@@ -18,6 +18,8 @@ export const sidebarTextSamples = {
     COMMENTS : 'Comments',
     ADMIN : 'Second Table',
     USER:"Users",
+    RATINGS:"Ratings",
+    TRAINIGS:"Traings",
     CHECK_LIST : 'Third Table',
     LOG_OUT : 'Log Out'     
 }

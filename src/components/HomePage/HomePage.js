@@ -157,24 +157,8 @@ const HomePage = () => {
   }, [fetchSkills]);
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
-    setPage(1); // Reset to first page when searching
+    setPage(1); 
   };
-  const openEditModal = (skill) => {
-    setSelectedSkill(skill);
-    setIsEditModalOpen(true);
-  };
-  const [columnDefs] = useState([
-    { field: "sNo", headerName: "S.No", minWidth: 70, maxWidth: 90 },
-    { field: "skill", headerName: "Skill", minWidth: 150 },
-    { field: "category", headerName: "Category", minWidth: 150 },
-    {
-      field: "actions",
-      headerName: "Actions",
-      minWidth: 100,
-      cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchSkills={fetchSkills} openEditModal={openEditModal} />, // ✅ Pass fetchSkills
-    },
-  ]);
-
   const onGridSizeChanged = useCallback((params) => {
     window.setTimeout(() => {
       params.api.sizeColumnsToFit();

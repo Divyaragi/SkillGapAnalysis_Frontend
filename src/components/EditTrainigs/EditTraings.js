@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import closeImage from '../../assets/images/closeIcon.png';
 
-const EditSkillModal = ({ skillData, onClose, refreshSkills }) => {
+const EditTrainigsModal = ({ skillData, onClose, refreshSkills }) => {
   const [skillName, setSkillName] = useState(skillData.skill);
   const [selectedCategory, setSelectedCategory] = useState(skillData.category);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     fetch("http://localhost:3002/skills/skill-categories")
       .then((response) => response.json())
@@ -72,7 +71,7 @@ const EditSkillModal = ({ skillData, onClose, refreshSkills }) => {
       <div className="fixed inset-0  bg-opacity-30 z-40" onClick={onClose} />
       <div className="fixed top-0 right-0 h-full w-[310px] bg-white border-l border-gray-300 shadow-lg z-50 transition-transform transform translate-x-0">
         <div className="flex justify-between items-center p-2 border-b">
-          <h2 className="text-lg font-semibold">Edit Skill</h2>
+          <h2 className="text-lg font-semibold">Edit Trainings</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
             <img src={closeImage} alt="Close" className="w-5 h-5" />
           </button>
@@ -139,4 +138,4 @@ const EditSkillModal = ({ skillData, onClose, refreshSkills }) => {
   );
 };
 
-export default EditSkillModal;
+export default EditTrainigsModal;
