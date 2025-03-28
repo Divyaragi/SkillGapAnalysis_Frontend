@@ -242,16 +242,21 @@ console.log("admin users response*******999999999**",response);
       const result = await response.json();
       console.log("adminusers*******99999999",result);
       
-      if (result.status && result.data) {        
+      if (result.status && result.data) {     
+        console.log(">>>>inside results*******9999999",result.data);
+           
         const formattedData = result.data.map((user, index) => ({
           SNo: (page - 1) * 10 + index + 1,
           EmployeeID: user.employeeID,
           Employee_Name: user.userName,
           Designation: user.designation,
           Vertical: user.vertical,
-          skill_gap: user.ratings.length > 0 ? user.ratings.map(r => r.skill.skill_name).join(", ") : "N/A",
+          // skill_gap: user.ratings?.length > 0 ? user.ratings.map(r => r.skill.skill_name).join(", ") : "N/A",
           user_Id:user.user_id
         }));
+
+        console.log(">>>>formattedData**********99999999999",formattedData);
+        
         setRowData(formattedData);
         setHasNext(result.data.length === 10);
         setHasPrev(page > 1);
@@ -459,7 +464,7 @@ console.log("rowData88888888888",rowData);
   };
   console.log("admin users rowdata***********99999",rowData);
 
-  
+
   return (
     <>
       <div className="flex justify-between ">

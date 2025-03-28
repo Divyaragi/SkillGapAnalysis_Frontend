@@ -32,7 +32,7 @@ function Dashboard() {
 
         <div className="w-100 dashboard-content-container">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<DashboardTwo />} />
             <Route path="/skills" element={<HomePage />} />
             <Route path="/users" element={<DashboardTwo />} />
             <Route path="/ratings" element={<RatingsManager />} />

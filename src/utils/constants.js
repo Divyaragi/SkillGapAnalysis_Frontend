@@ -19,7 +19,7 @@ export const sidebarTextSamples = {
     ADMIN : 'Second Table',
     USER:"Users",
     RATINGS:"Ratings",
-    TRAINIGS:"Traings",
+    TRAINIGS:"Trainings",
     CHECK_LIST : 'Third Table',
     LOG_OUT : 'Log Out'     
 }

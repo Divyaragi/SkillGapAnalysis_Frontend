@@ -91,6 +91,14 @@ const ExportCellRenderer = ({onNavigate }) => {
 const RatingsManager = ( ) => {
   const queryParams = new URLSearchParams(window.location.search);
   const user_id = queryParams.get("user_id");
+
+  // useEffect(() => {
+  //   if (user_id) {
+  //     window.history.replaceState({}, "", "/ratings"); // This removes the query param
+  //   }
+  // }, [user_id]);
+
+  // console.log("User ID:", user_id);
     const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [columnDefs] = useState([
