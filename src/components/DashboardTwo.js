@@ -25,6 +25,7 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { GiSkills } from "react-icons/gi";
+import { MdOutlineFileDownload } from "react-icons/md";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -82,6 +83,7 @@ const FileUpload = ({ fetchUsers }) => {
           title: "Upload Successful",
           text: data.message ||"File uploaded successfully!",
         }).then(() => {
+          window.location.reload();
           fetchUsers();
         });
       } else {
@@ -112,12 +114,12 @@ const FileUpload = ({ fetchUsers }) => {
         id="fileInput"
       />
       <button
-        className="w-[80px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"
+        className="w-[130px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"
         onClick={() => document.getElementById("fileInput").click()}
       >
-        <img src={exportIcon} alt="Upload" className="w-6 h-4 mr-1" />
+        <img src={exportIcon} alt="Upload" className="w-4 h-4 mr-1" />
         <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">
-          Upload
+          Upload Users
         </span>
       </button>
     </div>
@@ -282,85 +284,6 @@ console.log("admin users response*******999999999**",response);
 
         const result = await response.json();
         console.log("result********", result);
-
-      //   if (result && result.reportees) {
-      //     const formatReportees = (reportees, parentId = null) => {
-      //         return reportees.map((rep, index) => ({
-      //             SNo: index + 1,
-      //             EmployeeID: rep.employeeID,
-      //             Employee_Name: rep.userName,
-      //             Email: rep.emailID,
-      //             Designation: rep.designation,
-      //             Vertical: rep.vertical,
-      //             Manager: rep.L1Manager,
-      //             user_Id: rep.user_id,
-      //             ParentID: parentId,
-      //             children: rep.reportees.length > 0 ? formatReportees(rep.reportees, rep.user_id) : []
-      //         }));
-      //     };
-
-      //     const formattedData = formatReportees(result.reportees); // Only include reportees
-      //     setRowData(formattedData);
-      //     const formatIndirectReportees = (reportees, parentId = null) => {
-      //       return reportees.flatMap((rep, index) => {
-      //           // Create the current reportee object
-      //           const formattedRep = {
-      //               SNo: index + 1,
-      //               EmployeeID: rep.employeeID,
-      //               Employee_Name: rep.userName,
-      //               Email: rep.emailID,
-      //               Designation: rep.designation,
-      //               Vertical: rep.vertical,
-      //               Manager: rep.L1Manager,
-      //               user_Id: rep.user_id,
-      //               ParentID: parentId,
-      //               children: [] // Placeholder for children
-      //           };
-        
-      //           // Process children (if any)
-      //           if (rep.reportees.length > 0) {
-      //               formattedRep.children = formatIndirectReportees(rep.reportees, rep.user_id);
-      //           }
-        
-      //           // Include the nested children in the final array
-      //           return [formattedRep, ...formattedRep.children];
-      //       });
-      //   };
-      //   const extractIndirectReportees = (reportees, parentId = null, counter = { value: 1 }) => {
-      //     return reportees.flatMap(rep => {
-      //         // Recursively get all nested reportees
-      //         const indirectChildren = extractIndirectReportees(rep.reportees, rep.user_id, counter);
-              
-      //         // Return only the indirect reportees (not the top-level ones)
-      //         return indirectChildren.length > 0 ? indirectChildren : rep.reportees.map(child => ({
-      //             SNo: counter.value++,  // Use and increment the counter
-      //             EmployeeID: child.employeeID,
-      //             Employee_Name: child.userName,
-      //             Email: child.emailID,
-      //             Designation: child.designation,
-      //             Vertical: child.vertical,
-      //             Manager: child.L1Manager,
-      //             user_Id: child.user_id,
-      //             ParentID: rep.user_id,
-      //             children: extractIndirectReportees(child.reportees, child.user_id, counter)
-      //         }));
-      //     });
-      // };
-      
-      // // Extract indirect reportees from result.reportees
-      // const formattedInDirectData = extractIndirectReportees(result.reportees, null, { value: 1 });
-      // setIndirectReportees(formattedInDirectData);
-      
-      // console.log("Indirect Reportees Data:", formattedInDirectData);
-      
-      //   console.log("rowData88888888888",rowData);
-      //   console.log("indirect Repotees data 8888888888888",formattedInDirectData);
-        
-        
-      //       setHasNext(result.reportees.length === 10);
-      //       setHasPrev(page > 1);
-      //       setTotalPages(result.totalPages || 1);
-      //   }
       if (result && result.reportees) {
         let formattedData = [];
         let formattedInDirectData = [];
@@ -467,17 +390,26 @@ console.log("rowData88888888888",rowData);
 
   return (
     <>
-      <div className="flex justify-between ">
+      <div className="flex !justify-between ">
         <h1 className="text-xl font-semibold ml-2">Users</h1>
-
-        <div className="search-container mr-[7rem]">
+        <div className="search-container mr-[20rem]">
           <img src={searchIcon} alt="Search" className="search-icon" />
-          <input type="text" placeholder="Search..." className="search-input" value={searchQuery}
+          <input type="text" placeholder="Search Employee ID, Employee Name..." className="search-input" value={searchQuery}
             onChange={handleSearch} />
         </div>
+        <div>
+        <button className="w-[180px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 ml-[40rem] mt-1">
+        <MdOutlineFileDownload className="w-5 h-5 text-[#013579] mr-2" />
+          <a href="/template.xlsx" download="Template.xlsx" className="text-[14px] leading-[19px] font-normal text-[#013579]">
+    Download Template
+  </a>
+</button>
+</div>
+<div className="">
         <FileUpload fetchUsers={fetchUsers} />
+        </div>
       </div>
-      <div className="flex ml-2">
+      <div className="flex ml-2 mt-1">
         <button
           className={`px-4 py-2 ${activeTab === "direct" ? "bg-[#013579] text-white" : "bg-gray-200"}`}
           onClick={() => setActiveTab("direct")}

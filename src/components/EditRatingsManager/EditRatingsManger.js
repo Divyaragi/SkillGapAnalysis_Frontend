@@ -3,10 +3,20 @@ import Swal from "sweetalert2";
 import closeImage from '../../assets/images/closeIcon.png';
 
 const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
-    const [skillName, setSkillName] = useState(skillData?.skill_name);
-    const [selectedMangerRating, setselectedMangerRating] = useState(skillData?.manager_rating);
-    const [selectedRequiredRating, setselectedRequiredRating] = useState(skillData?.required_rating);
-
+    console.log("skillData*********",skillData);
+    
+    const [skillName, setSkillName] = useState("");
+    const[employeeRating,setEmployeeRating] = useState("");
+const [selectedMangerRating, setselectedMangerRating] = useState("");
+const [selectedRequiredRating, setselectedRequiredRating] = useState("");
+useEffect(() => {
+    if (skillData) {
+        setSkillName(skillData.skill_name || "");
+        setEmployeeRating(skillData.self_rating || " ");
+        setselectedMangerRating(skillData.manager_rating || "");
+        setselectedRequiredRating(skillData.required_rating || "");
+    }
+}, [skillData]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -92,6 +102,23 @@ const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
                             readOnly
                             onChange={(e) => {
                                 setSkillName(e.target.value);
+                                setError("");
+                            }}
+                            className="border p-2 rounded w-full bg-gray-200 text-gray-500 read-only-input"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium">
+                            Self Rating <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Enter"
+                            value={employeeRating}
+                            readOnly
+                            onChange={(e) => {
+                                setEmployeeRating(e.target.value);
                                 setError("");
                             }}
                             className="border p-2 rounded w-full bg-gray-200 text-gray-500 read-only-input"

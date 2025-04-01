@@ -19,11 +19,14 @@ import {
 import editIcon from '../assets/images/Edit.png';
 import deleteIcon from '../assets/images/delete.png';
 import exportIcon from '../assets/images/Export.png';
+import addIcon from '../assets/images/addImage.png'
 import searchIcon from '../assets/search.png';
 import './DashboardTwo.css';
 import { useSearchParams } from "react-router-dom";
 import AddRatingsManager from './AddRatingsManager/AddRatingsManger';
 import EditRatingsModal from "./EditRatingsManager/EditRatingsManger";
+import { MdOutlinePreview } from "react-icons/md";
+import ViewProficiencyLevel from "./AddRatingsManager/ViewProficiencyLevel";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -54,7 +57,7 @@ const ActionCellRenderer = ({data,openEditModal}) => {
           marginTop:"5px"
         }}
       >
-        <img src={editIcon} alt="Edit" style={{ width: "16px", height: "16px" }} />
+        <img src={addIcon} alt="Edit" style={{ width: "16px", height: "16px" }} />
       </div>
    
     </div>
@@ -91,14 +94,6 @@ const ExportCellRenderer = ({onNavigate }) => {
 const RatingsManager = ( ) => {
   const queryParams = new URLSearchParams(window.location.search);
   const user_id = queryParams.get("user_id");
-
-  // useEffect(() => {
-  //   if (user_id) {
-  //     window.history.replaceState({}, "", "/ratings"); // This removes the query param
-  //   }
-  // }, [user_id]);
-
-  // console.log("User ID:", user_id);
     const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [columnDefs] = useState([
@@ -110,7 +105,7 @@ const RatingsManager = ( ) => {
     { field: "proficiency_level", headerName: "Proficiency Level" },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: "Add Ratings",
       minWidth: 100,
       cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchSkills={fetchRatings}
       openEditModal={(RatingsData) => { setSelectedSkill(RatingsData); setIsEditModalOpen(true); }}        />, 
@@ -123,6 +118,8 @@ const [rowData, setRowData] = useState([]);
   const [hasPrev, setHasPrev] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -199,12 +196,20 @@ const [rowData, setRowData] = useState([]);
     onChange={handleSearch}/>
     </div> */}
     <div className="flex justify-end mr-1 mt-1">
-     <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"  onClick={() => setIsModalOpen(true)}>
+    <button className="w-[200px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 mr-2"  onClick={() => setIsViewModalOpen(true)}>
+      {/* <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" /> */}
+              <MdOutlinePreview className="w-5 h-5 text-[#03c6fc] mr-2" />
+      
+      <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Proficiency Level Criteria</span>
+      {isViewModalOpen && <ViewProficiencyLevel onClose={() => setIsViewModalOpen(false)}  />}
+
+    </button>
+     {/* <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"  onClick={() => setIsModalOpen(true)}>
       <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" />
       <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
       {isModalOpen && <AddRatingsManager onClose={() => setIsModalOpen(false)} user_id={user_id} refreshSkills={fetchRatings}  onRatingIdUpdate={handleRatingIdUpdate} />}
 
-    </button>
+    </button> */}
     </div>
    
     </div>

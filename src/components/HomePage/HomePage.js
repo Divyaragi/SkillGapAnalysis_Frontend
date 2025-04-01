@@ -145,7 +145,6 @@ const HomePage = () => {
         setHasNext(result.data.skills.length === 10);
         setHasPrev(page > 1);
         setTotalPages(result.data.pagination.totalPages || 1);
-
       }
     } catch (error) {
       console.error("Error fetching skills:", error);
@@ -175,7 +174,7 @@ const HomePage = () => {
 <h1 className="text-xl font-semibold ml-2">Skills</h1>
 <div className="search-container mr-[5rem]">
       <img src={searchIcon} alt="Search" className="search-icon" />
-      <input type="text" placeholder="Search..." className="search-input"value={searchQuery} 
+      <input type="text" placeholder="Search Skills..." className="search-input"value={searchQuery} 
     onChange={handleSearch}  />
     </div>
         <div className="flex justify-end mr-1">
