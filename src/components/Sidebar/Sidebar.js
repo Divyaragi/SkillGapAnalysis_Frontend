@@ -17,12 +17,14 @@ import myImage from '../../assets/images/prospect.png';
 import logoImage from '../../assets/sidebar_logo.png';
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+
 const Navbar = () => {
     const [roleId, setRoleId] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [roleData, setroleData] = useState([]);
       const [userData, setUserData] = useState({ name: "", email: "" });
-    
+      const [userId, setUserId] = useState(null);
+      console.log("userId",userId)
     const handleIconClick = () => {
         setSidebarCollapsed(!sidebarCollapsed);
     };
@@ -31,6 +33,15 @@ const Navbar = () => {
 
     const handleNavigation = (path) => {
       navigate(path);
+    };
+    const handleRatingNavigation = (path, user_id) => {
+      console.log("uuuuuuuuuuuuuuuuuu",user_id);
+      if (!user_id) {
+        console.error("User ID is not available!");
+        return;
+      }
+      console.log(`Navigating to ${path} with User ID:`, user_id);
+      navigate(`${path}?userId=${user_id}`); // Passing userId in URL
     };
      useEffect(() => {
         const token = Cookies.get("result"); 
@@ -72,6 +83,7 @@ const Navbar = () => {
           if (result.success && result.data) {
             setRoleId(result.data.role_id); // Store role_id
             console.log("Role ID:", result.data.role_id);
+            setUserId(result.data.user_id);
           }
         } catch (error) {
           console.error("Error fetching roles:", error);
@@ -117,7 +129,11 @@ const Navbar = () => {
                     >
                         {sidebarTextSamples.SKILLL}
                     </MenuItem>
-                    
+                    <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
+                     onClick={() => handleNavigation('myTrainings')}
+                     >
+                        {sidebarTextSamples.MY_TRAININGS}</MenuItem>
+                  
                     <MenuItem className='first-menu-item' icon={<GroupIcon />}
                      onClick={() => handleNavigation('users')}
                      >
@@ -126,6 +142,15 @@ const Navbar = () => {
                      onClick={() => handleNavigation('ratings')}
                      >
                         {sidebarTextSamples.RATINGS}</MenuItem> */}
+                        
+                            
+                        <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
+                    onClick={() => handleRatingNavigation("MyRatings", userId)}
+                     >
+                        {sidebarTextSamples.MY_Ratings}</MenuItem>
+
+                      
+
                         <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
                      onClick={() => handleNavigation('Tranings')}
                      >
@@ -173,8 +198,9 @@ const Navbar = () => {
                         <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
                      onClick={() => handleNavigation('Tranings')}
                      >
-                        {sidebarTextSamples.TRAINIGS}</MenuItem>
-                  
+                        {sidebarTextSamples.TRAININGS}</MenuItem>
+
+                    
                     <div>
                     </div>
                 </Menu>

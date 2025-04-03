@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, {
@@ -16,17 +17,19 @@ import {
   ModuleRegistry,
   ValidationModule,
 } from "ag-grid-community";
-import editIcon from '../assets/images/Edit.png';
-import deleteIcon from '../assets/images/delete.png';
-import exportIcon from '../assets/images/Export.png';
-import addIcon from '../assets/images/addImage.png'
-import searchIcon from '../assets/search.png';
-import './DashboardTwo.css';
+import editIcon from '../../assets/images/Edit.png';
+import deleteIcon from '../../assets/images/delete.png';
+import exportIcon from '../../assets/images/Export.png';
+import addIcon from '../../assets/images/addImage.png';
+import addImage from '../../assets/images/addImage.png';
+import searchIcon from '../../assets/search.png';
+import '../DashboardTwo';
 import { useSearchParams } from "react-router-dom";
-import AddRatingsManager from './AddRatingsManager/AddRatingsManger';
-import EditRatingsModal from "./EditRatingsManager/EditRatingsManger";
+import AddRatingsManager from '../AddRatingsManager/AddRatingsManger';
+import EditRatingsModal from "../EditRatingsManager/EditRatingsManger";
 import { MdOutlinePreview } from "react-icons/md";
-import ViewProficiencyLevel from "./AddRatingsManager/ViewProficiencyLevel";
+import ViewProficiencyLevel from "../AddRatingsManager/ViewProficiencyLevel";
+import AddRatings from '../AddRatings/AddRatings';
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -57,12 +60,13 @@ const ActionCellRenderer = ({data,openEditModal}) => {
           marginTop:"5px"
         }}
       >
-        <img src={addIcon} alt="Edit" style={{ width: "16px", height: "16px" }} />
+        <img src={editIcon} alt="Edit" style={{ width: "16px", height: "16px" }} />
       </div>
    
     </div>
   );
 };
+
 
 const ExportCellRenderer = ({onNavigate }) => {
 
@@ -93,9 +97,8 @@ const ExportCellRenderer = ({onNavigate }) => {
 
 const RatingsManager = ( ) => {
   const queryParams = new URLSearchParams(window.location.search);
-  const user_id = queryParams.get("user_id");
-  console.log("use id in Ratings manager",user_id);
-  
+  const user_id = queryParams.get("userId");
+  console.log("USERRRR",user_id);
     const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const [columnDefs] = useState([
@@ -106,31 +109,55 @@ const RatingsManager = ( ) => {
     { field: "skill_gap", headerName: "Skill Gap" },
     { field: "proficiency_level", headerName: "Proficiency Level" },
     {
-      field: "actions",
-      headerName: "Add Ratings",
-      minWidth: 100,
-      cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchSkills={fetchRatings}
-      openEditModal={(RatingsData) => { setSelectedSkill(RatingsData); setIsEditModalOpen(true); }}        />, 
-    },
+        field: "actions",
+        headerName: "Actions",
+        minWidth: 100,
+        cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchSkills={fetchRatings}
+        openEditModal={(RatingsData) => { setSelectedSkill(RatingsData); setIsEditModalOpen(true); }}        />, 
+      },
   ]);
   
-const [rowData, setRowData] = useState([]);
+
+  const [rowData, setRowData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [hasPrev, setHasPrev] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [ratingId, setRatingId] = useState(null);
+  const [selectedProviderId, setSelectedProviderId] = useState(null);
+    const [categories, setCategories] = useState([]);
+
+  const fetchSkills = useCallback(async () => {
+          try {
+              const response = await fetch(`http://localhost:3002/skills/getSkills`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({})
+              });
+  
+              if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+              const data = await response.json();
+              if (data.status && data.data?.skills) {
+                  setCategories(data.data.skills.map(skill => ({ id: skill.skill_id, name: skill.skill_name })));
+              }
+          } catch (error) {
+              console.error("Error fetching skills:", error);
+          }
+      }, []);
+    useEffect(() => {
+        fetchSkills();
+    }, [fetchSkills]);
 
   const handleRatingIdUpdate = (newRatingId) => {
-      setRatingId(newRatingId);
-      console.log("*****newRatingId******", newRatingId);
-  };
+    setRatingId(newRatingId);
+    console.log("*****newRatingId******", newRatingId);
+};
   const onGridSizeChanged = useCallback((params) => {
     window.setTimeout(() => {
       params.api.sizeColumnsToFit();
@@ -143,7 +170,7 @@ const [rowData, setRowData] = useState([]);
 
   const fetchRatings = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=${user_id}`, {
+      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=73`, {
         method: "GET",
       });
 
@@ -186,7 +213,7 @@ const [rowData, setRowData] = useState([]);
     setPage(1); // Reset to first page when searching
   };
   console.log("isEditModalOpen******",isEditModalOpen);
-  
+  console.log("selectedProviderId before opening modal:", selectedProviderId);
   return (
     <>
     <div className="flex justify-between ">
@@ -197,7 +224,8 @@ const [rowData, setRowData] = useState([]);
       <input type="text" placeholder="Search..." className="search-input"  value={searchQuery} 
     onChange={handleSearch}/>
     </div> */}
-    <div className="flex justify-end mr-1 mt-1">
+    
+   <div className="flex justify-end mr-1 mt-1 ml-[40rem]">
     <button className="w-[200px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 mr-2"  onClick={() => setIsViewModalOpen(true)}>
       {/* <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" /> */}
               <MdOutlinePreview className="w-5 h-5 text-[#03c6fc] mr-2" />
@@ -206,13 +234,21 @@ const [rowData, setRowData] = useState([]);
       {isViewModalOpen && <ViewProficiencyLevel onClose={() => setIsViewModalOpen(false)}  />}
 
     </button>
-     {/* <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"  onClick={() => setIsModalOpen(true)}>
-      <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" />
-      <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
-      {isModalOpen && <AddRatingsManager onClose={() => setIsModalOpen(false)} user_id={user_id} refreshSkills={fetchRatings}  onRatingIdUpdate={handleRatingIdUpdate} />}
 
-    </button> */}
     </div>
+   
+      <div className="flex justify-end mr-1">
+                        <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2" onClick={() => {
+                            setSelectedProviderId(rowData.length > 0 ? rowData[0].provider_id : null);
+                            setIsModalOpen(true);
+                        }}>
+                            <img src={addImage} alt="Add" className="w-4 h-4 mr-1" />
+                            <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
+                        </button>
+                        {isModalOpen && <AddRatings onClose={() => setIsModalOpen(false)} refreshSkills={fetchSkills} user_id={user_id} />}
+  
+                    </div>
+ 
    
     </div>
     <div style={containerStyle} className="mt-3">
@@ -251,6 +287,7 @@ const [rowData, setRowData] = useState([]);
   );
 };
 
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
@@ -259,3 +296,5 @@ root.render(
 );
 window.tearDownExample = () => root.unmount();
 export default RatingsManager;
+
+
