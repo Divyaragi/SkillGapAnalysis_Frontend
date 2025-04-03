@@ -7,6 +7,8 @@ import './dashboard.css';
 import DashboardTwo from '../DashboardTwo';
 import RatingsManager from '../RatingsManger';
 import TrainingsManager from '../TrainigsManager/TrainingsManger';
+import AddTrainigs from '../AddTrainigs/AddTraining';
+import { RowDataProvider } from '../../UserContext';
 function Dashboard() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation(); // ✅ Now it works correctly!
@@ -14,6 +16,7 @@ function Dashboard() {
   const [navVisible, showNavbar] = useState(false);
 
   return (
+    <RowDataProvider>
     <div className="d-flex main">
       {/* Sidebar */}
       {isNavVisible && (
@@ -37,10 +40,13 @@ function Dashboard() {
             <Route path="/users" element={<DashboardTwo />} />
             <Route path="/ratings" element={<RatingsManager />} />
             <Route path="/Tranings" element={<TrainingsManager />} />
+            <Route path="/AddTranings" element={<AddTrainigs />} />
+
           </Routes>
         </div>
       </div>
     </div>
+    </RowDataProvider>
   );
 }
 

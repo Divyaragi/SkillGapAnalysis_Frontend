@@ -58,7 +58,7 @@ const ActionCellRenderer = ({ data, fetchSkills,openEditModal }) => {
         Swal.fire("Deleted!", "Skill has been deleted.", "success");
         fetchSkills();
       } else {
-        Swal.fire("Error!", "Failed to delete skill.", "error");
+      Swal.fire("Error!", result.message || "Failed to delete skill.", "error");
       }
     } catch (error) {
       console.error("Error deleting skill:", error);

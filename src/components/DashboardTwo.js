@@ -6,6 +6,7 @@ import React, {
   useState,
   useEffect,
   StrictMode,
+  useContext
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
@@ -26,6 +27,8 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { GiSkills } from "react-icons/gi";
 import { MdOutlineFileDownload } from "react-icons/md";
+// import { RowDataContext } from "../UserContext";
+import RowDataContext from "../UserContext";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -128,8 +131,10 @@ const FileUpload = ({ fetchUsers }) => {
 
 const DashboardTwo = () => {
    const [userData, setUserData] = useState({ name: "", email: "" });
-  
-    useEffect(() => {
+  //  const context = useContext(RowDataContext);
+  //  const { rowData, setRowData } = context ;
+  const [rowData, setRowData] = useState([]);
+   useEffect(() => {
       const token = Cookies.get("result"); 
       if (token) {
         try {
@@ -178,7 +183,6 @@ const DashboardTwo = () => {
 
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
-  const [rowData, setRowData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [hasPrev, setHasPrev] = useState(false);

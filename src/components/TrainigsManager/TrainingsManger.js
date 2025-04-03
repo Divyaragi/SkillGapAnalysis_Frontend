@@ -31,7 +31,7 @@ ModuleRegistry.registerModules([
     ValidationModule,
 ]);
 
-const ActionCellRenderer = ({ data, fetchSkills, openEditModal }) => {
+const ActionCellRenderer = ({ data, fetchTrainings, openEditModal }) => {
     const handleDelete = async () => {
         const confirmDelete = await Swal.fire({
             title: "Are you sure?",
@@ -57,7 +57,7 @@ const ActionCellRenderer = ({ data, fetchSkills, openEditModal }) => {
             const result = await response.json();
             if (result.status) {
                 Swal.fire("Deleted!", "Skill has been deleted.", "success");
-                fetchSkills();
+                fetchTrainings();
             } else {
                 Swal.fire("Error!", "Failed to delete skill.", "error");
             }
@@ -121,7 +121,7 @@ const TrainingsManager = () => {
             field: "actions",
             headerName: "Actions",
             minWidth: 100,
-            cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchSkills={fetchSkills}
+            cellRenderer: (params) => <ActionCellRenderer data={params.data} fetchTrainings={fetchTrainings}
                 openEditModal={(RatingsData) => { setSelectedSkill(RatingsData); setIsEditModalOpen(true); }} />,
         },
     ]);
@@ -137,8 +137,9 @@ const TrainingsManager = () => {
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedProviderId, setSelectedProviderId] = useState(null);
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
-    const fetchSkills = useCallback(async () => {
+    const fetchTrainings = useCallback(async () => {
         try {
             const response = await fetch(`http://localhost:3002/training-resources/fetch-training-resources?page=${page}&limit=10`, {
                 method: "GET",
@@ -148,6 +149,8 @@ const TrainingsManager = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const result = await response.json();
+            console.log("trainings result**********",result);
+            
             if (result.data) {
                 const formattedData = result.data.trainingResources.map((training, index) => ({
                     sNo: (page - 1) * 10 + index + 1,
@@ -157,6 +160,9 @@ const TrainingsManager = () => {
                     duration: training.duration || "N/A",
                     material: training.materials || "N/A",
                     skill_id: training.skill?.skill_id || null,
+                    resource_id : training.resource_id || "N/A",
+                    provider_id:training.provider_id || "N/A",
+                    user_id:training.provider?.user_id || "N/A",
                 }));
                 setRowData(formattedData);
     
@@ -173,8 +179,8 @@ const TrainingsManager = () => {
     
 
     useEffect(() => {
-        fetchSkills();
-    }, [fetchSkills]);
+        fetchTrainings();
+    }, [fetchTrainings]);
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
         setPage(1);
@@ -188,6 +194,7 @@ const TrainingsManager = () => {
         params.api.sizeColumnsToFit();
     }, []);
     console.log("total pages********",totalPages);
+    console.log("rowData.user_id*******",rowData);
     
     return (
         <>
@@ -201,12 +208,13 @@ const TrainingsManager = () => {
                 <div className="flex justify-end mr-1">
                     <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2" onClick={() => {
                         setSelectedProviderId(rowData.length > 0 ? rowData[0].provider_id : null);
+                        setSelectedUserId(rowData.length > 0 ? rowData[0].user_id : null)
                         setIsModalOpen(true);
                     }}>
                         <img src={addImage} alt="Add" className="w-4 h-4 mr-1" />
                         <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
                     </button>
-                    {isModalOpen && <AddTrainigs onClose={() => setIsModalOpen(false)} refreshSkills={fetchSkills} providerId={selectedProviderId} />}
+                    {isModalOpen && <AddTrainigs onClose={() => setIsModalOpen(false)} refreshTrainings={fetchTrainings} providerId={selectedProviderId} userId={selectedUserId} />}
 
                 </div>
             </div>
@@ -240,7 +248,7 @@ const TrainingsManager = () => {
                 </div>
             </div>
             {isEditModalOpen && selectedSkill && (
-                <EditTrainigsModal skillData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchSkills} />
+                <EditTrainigsModal TrainingsData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchTrainings} />
             )}
         </>
     );

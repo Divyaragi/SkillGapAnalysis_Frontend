@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import closeImage from '../../assets/images/closeIcon.png';
 
 const EditSkillModal = ({ skillData, onClose, refreshSkills }) => {
+  console.log("skills skilldata*******8",skillData);
+  
   const [skillName, setSkillName] = useState(skillData.skill);
   const [selectedCategory, setSelectedCategory] = useState(skillData.category);
   const [categories, setCategories] = useState([]);

@@ -85,7 +85,7 @@ useEffect(() => {
             <div className="fixed inset-0  bg-opacity-30 z-40" onClick={onClose} />
             <div className="fixed top-0 right-0 h-full w-[310px] bg-white border-l border-gray-300 shadow-lg z-50 transition-transform transform translate-x-0">
                 <div className="flex justify-between items-center p-2 border-b">
-                    <h2 className="text-lg font-semibold">Edit Ratings</h2>
+                    <h2 className="text-lg font-semibold">Add Ratings</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-black">
                         <img src={closeImage} alt="Close" className="w-5 h-5" />
                     </button>
