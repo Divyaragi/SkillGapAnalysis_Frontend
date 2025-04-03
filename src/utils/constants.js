@@ -21,7 +21,9 @@ export const sidebarTextSamples = {
     RATINGS:"Ratings",
     TRAINIGS:"Trainings",
     CHECK_LIST : 'Third Table',
-    LOG_OUT : 'Log Out'     
+    LOG_OUT : 'Log Out',
+    MY_TRAININGS: 'My Trainings',
+    MY_Ratings: 'My Ratings',  
 }
 
 export const topbarTextSamples = {

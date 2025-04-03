@@ -208,6 +208,7 @@ const DashboardTwo = () => {
               fetchRoles();
           }
       }, [userData.email]);
+      
   const fetchRoles = useCallback(async () => {
     try {
       const response = await fetch(
@@ -239,7 +240,7 @@ const DashboardTwo = () => {
       const response = await fetch(`http://localhost:3002/users?page=${page}&search=${searchQuery}`, {
         method: "GET",
       });
-console.log("admin users response*******999999999**",response);
+      console.log("admin users response*******999999999**",response);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

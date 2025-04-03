@@ -9,6 +9,8 @@ import RatingsManager from '../RatingsManger';
 import TrainingsManager from '../TrainigsManager/TrainingsManger';
 import AddTrainigs from '../AddTrainigs/AddTraining';
 import { RowDataProvider } from '../../UserContext';
+import MyTrainings from '../MyTrainings/myTrainings';
+import MyRatings from '../MyRatings/myRatings';
 function Dashboard() {
   const noNavBarRoutes = ['/login'];
   const location = useLocation(); // ✅ Now it works correctly!
@@ -42,6 +44,8 @@ function Dashboard() {
             <Route path="/Tranings" element={<TrainingsManager />} />
             <Route path="/AddTranings" element={<AddTrainigs />} />
 
+            <Route path="/myTrainings" element={<MyTrainings />} />
+            <Route path="/myRatings" element={<MyRatings />} />
           </Routes>
         </div>
       </div>
