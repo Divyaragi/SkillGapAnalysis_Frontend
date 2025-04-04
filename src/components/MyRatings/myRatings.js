@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { AgGridReact } from "ag-grid-react";
+import { useLocation } from "react-router-dom";
 import {
   ClientSideRowModelModule,
   ColumnApiModule,
@@ -30,6 +31,7 @@ import EditRatingsModal from "../EditRatingsManager/EditRatingsManger";
 import { MdOutlinePreview } from "react-icons/md";
 import ViewProficiencyLevel from "../AddRatingsManager/ViewProficiencyLevel";
 import AddRatings from '../AddRatings/AddRatings';
+import EditRatings from '../EditRatings/EditRatings';
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -98,6 +100,8 @@ const ExportCellRenderer = ({onNavigate }) => {
 const RatingsManager = ( ) => {
   const queryParams = new URLSearchParams(window.location.search);
   const user_id = queryParams.get("userId");
+  // const location = useLocation();
+  // const user_id = location.state?.userId || null;
   console.log("USERRRR",user_id);
     const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -183,12 +187,12 @@ const RatingsManager = ( ) => {
       if (result.success && result.data) {
         const formattedData = result.data.map((rating) => ({
           skill_name: rating.skill.skill_name,
-          self_rating: rating.self_rating ?? "N/A",
-          manager_rating: rating.manager_rating ?? "N/A",
-          required_rating: rating.required_rating ?? "N/A",
-          skill_gap: rating.skill_gap ?? "N/A",
-          proficiency_level: rating.proficiency_level ?? "N/A",
-          rating_id: rating.rating_id ?? "N/A", 
+          self_rating: rating.self_rating ?? "-",
+          manager_rating: rating.manager_rating ?? "-",
+          required_rating: rating.required_rating ?? "-",
+          skill_gap: rating.skill_gap ?? "-",
+          proficiency_level: rating.proficiency_level ?? "-",
+          rating_id: rating.rating_id ?? "-", 
           skill_id:rating.skill.skill_id,
           
 
@@ -237,7 +241,7 @@ const RatingsManager = ( ) => {
 
     </div>
    
-      <div className="flex justify-end mr-1">
+      <div className="flex justify-end mr-1 mt-1">
                         <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2" onClick={() => {
                             setSelectedProviderId(rowData.length > 0 ? rowData[0].provider_id : null);
                             setIsModalOpen(true);
@@ -245,7 +249,7 @@ const RatingsManager = ( ) => {
                             <img src={addImage} alt="Add" className="w-4 h-4 mr-1" />
                             <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
                         </button>
-                        {isModalOpen && <AddRatings onClose={() => setIsModalOpen(false)} refreshSkills={fetchSkills} user_id={user_id} />}
+                        {isModalOpen && <AddRatings onClose={() => setIsModalOpen(false)} refreshSkills={fetchRatings} user_id={user_id} />}
   
                     </div>
  
@@ -281,7 +285,7 @@ const RatingsManager = ( ) => {
       </div>
     </div>
     {isEditModalOpen &&selectedSkill && (
-        <EditRatingsModal skillData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchRatings}  user_id={user_id} />
+        <EditRatings skillData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchRatings}  user_id={user_id} />
       )}
     </>
   );
