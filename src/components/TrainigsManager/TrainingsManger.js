@@ -248,7 +248,7 @@ const TrainingsManager = () => {
                 </div>
             </div>
             {isEditModalOpen && selectedSkill && (
-                <EditTrainigsModal TrainingsData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchTrainings} />
+                <EditTrainigsModal TrainingsData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshTrainings={fetchTrainings} />
             )}
         </>
     );

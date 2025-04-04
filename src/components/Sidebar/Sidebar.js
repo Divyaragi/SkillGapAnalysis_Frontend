@@ -17,6 +17,8 @@ import myImage from '../../assets/images/prospect.png';
 import logoImage from '../../assets/sidebar_logo.png';
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { SiBookstack } from "react-icons/si";
+import { GoGraph } from "react-icons/go";
 
 const Navbar = () => {
     const [roleId, setRoleId] = useState(null);
@@ -129,10 +131,7 @@ const Navbar = () => {
                     >
                         {sidebarTextSamples.SKILLL}
                     </MenuItem>
-                    <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
-                     onClick={() => handleNavigation('myTrainings')}
-                     >
-                        {sidebarTextSamples.MY_TRAININGS}</MenuItem>
+                    
                   
                     <MenuItem className='first-menu-item' icon={<GroupIcon />}
                      onClick={() => handleNavigation('users')}
@@ -144,10 +143,7 @@ const Navbar = () => {
                         {sidebarTextSamples.RATINGS}</MenuItem> */}
                         
                             
-                        <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
-                    onClick={() => handleRatingNavigation("MyRatings", userId)}
-                     >
-                        {sidebarTextSamples.MY_Ratings}</MenuItem>
+                      
 
                       
 
@@ -198,9 +194,16 @@ const Navbar = () => {
                         <MenuItem className='first-menu-item' icon={<PlaylistAddCheckIcon />}
                      onClick={() => handleNavigation('Tranings')}
                      >
-                        {sidebarTextSamples.TRAININGS}</MenuItem>
+                        {sidebarTextSamples.TRAINIGS}</MenuItem>
 
-                    
+                        <MenuItem className='first-menu-item' icon={<SiBookstack />}
+                     onClick={() => handleNavigation('myTrainings')}
+                     >
+                        {sidebarTextSamples.MY_TRAININGS}</MenuItem>
+                        <MenuItem className='first-menu-item' icon={<GoGraph />}
+                    onClick={() => handleRatingNavigation("MyRatings", userId)}
+                     >
+                        {sidebarTextSamples.MY_Ratings}</MenuItem>
                     <div>
                     </div>
                 </Menu>

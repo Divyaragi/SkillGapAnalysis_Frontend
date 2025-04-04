@@ -6,7 +6,7 @@ import { duration } from "@mui/material";
 import RowDataContext from "../../UserContext";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-const AddTrainigs = ({ onClose, refreshSkills, userId }) => {
+const AddTrainigs = ({ onClose, refreshTrainings, userId }) => {
     console.log("userId**********",userId);
     
     // const { rowData } = useContext(RowDataContext);
@@ -97,6 +97,7 @@ const AddTrainigs = ({ onClose, refreshSkills, userId }) => {
                 title: "Training added successfully!",
                 showConfirmButton: true,
             });
+            refreshTrainings();
             // refreshSkills();
             onClose();
         } catch (error) {

@@ -29,6 +29,7 @@ import { GiSkills } from "react-icons/gi";
 import { MdOutlineFileDownload } from "react-icons/md";
 // import { RowDataContext } from "../UserContext";
 import RowDataContext from "../UserContext";
+import { BrowserRouter } from "react-router-dom";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -36,12 +37,23 @@ ModuleRegistry.registerModules([
   ValidationModule,
 ]);
 
-const ExportCellRenderer = ({user_Id  }) => {  
+const ExportCellRenderer = ({ user_Id }) => {
+  // const router = router();
+  const navigate = useNavigate();
+  const handleExport = () => {
+    sessionStorage.setItem("userId", user_Id);
+    // window.location.href = "/ratings"; // Navigating without exposing userId
+    // router.useNavigate("/ratings")
+    navigate("/ratings");
+
+  };
+
+
   return (
     <div className="export-cell-container">
-      <div className="export-button" onClick={() => window.location.href = `/ratings?user_id=${user_Id}`}>
-  <GiSkills className="text-2xl text-blue-500 cursor-pointer" />
-</div>
+      <div className="export-button" onClick={handleExport}>
+        <GiSkills className="text-2xl text-blue-500 cursor-pointer" />
+      </div>
     </div>
   );
 };
@@ -70,21 +82,21 @@ const FileUpload = ({ fetchUsers }) => {
   const handleUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
       const response = await fetch("http://localhost:3002/upload", {
         method: "POST",
         body: formData,
       });
-  
+
       const data = await response.json(); // Parse response JSON
-  
+
       if (response.ok) {
         // If status is 200, show success message
         Swal.fire({
           icon: "success",
           title: "Upload Successful",
-          text: data.message ||"File uploaded successfully!",
+          text: data.message || "File uploaded successfully!",
         }).then(() => {
           window.location.reload();
           fetchUsers();
@@ -106,7 +118,7 @@ const FileUpload = ({ fetchUsers }) => {
       });
     }
   };
-  
+
   return (
     <div className="flex justify-end mr-1 mt-1">
       <input
@@ -130,56 +142,56 @@ const FileUpload = ({ fetchUsers }) => {
 };
 
 const DashboardTwo = () => {
-   const [userData, setUserData] = useState({ name: "", email: "" });
+  const [userData, setUserData] = useState({ name: "", email: "" });
   //  const context = useContext(RowDataContext);
   //  const { rowData, setRowData } = context ;
   const [rowData, setRowData] = useState([]);
-   useEffect(() => {
-      const token = Cookies.get("result"); 
-      if (token) {
-        try {
-          const decodedToken = jwtDecode(token);        
-          setUserData({
-            name: decodedToken.name,
-            email: decodedToken.upn || decodedToken.email || "No Email", 
-          });
-        } catch (error) {
-          console.error("Error decoding token:", error);
-        }
+  useEffect(() => {
+    const token = Cookies.get("result");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserData({
+          name: decodedToken.name,
+          email: decodedToken.upn || decodedToken.email || "No Email",
+        });
+      } catch (error) {
+        console.error("Error decoding token:", error);
       }
-    }, []);
-    console.log("userData********** in users",userData);
-    
+    }
+  }, []);
+  console.log("userData********** in users", userData);
+
   const columnDefs = [
     { field: "SNo" },
-    { field: "EmployeeID",headerName:"Employee ID" },
+    { field: "EmployeeID", headerName: "Employee ID" },
     { field: "Employee_Name", headerName: "Employee Name" },
     { field: "Designation" },
     { field: "Vertical" },
     // { field: "skill_gap", headerName: "Skill gap" },
-    { 
+    {
       field: "Skill Gap Analysis",
       cellRenderer: (params) => {
         return <ExportCellRenderer user_Id={params?.data?.user_Id} />;
       }
     }
   ];
-  
+
   const inDirectReporteesColumnDefs = [
     { field: "SNo" },
-    { field: "EmployeeID",headerName:"Employee ID" },
+    { field: "EmployeeID", headerName: "Employee ID" },
     { field: "Employee_Name", headerName: "Employee Name" },
     { field: "Designation" },
     { field: "Vertical" },
     // { field: "L1_Manager", headerName: "L1 Manager" },
-    { 
+    {
       field: "Ratings",
       cellRenderer: (params) => {
         return <ExportCellRenderer user_Id={params?.data?.user_Id} />;
       }
     }
   ];
-  
+
 
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -192,7 +204,7 @@ const DashboardTwo = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("direct"); // State for tab selection
   const [indirectReportees, setIndirectReportees] = useState([]);
-    const [roleId, setRoleId] = useState(null);
+  const [roleId, setRoleId] = useState(null);
 
   const onGridSizeChanged = useCallback((params) => {
     window.setTimeout(() => {
@@ -203,12 +215,12 @@ const DashboardTwo = () => {
   const onFirstDataRendered = useCallback((params) => {
     params.api.sizeColumnsToFit();
   }, []);
-     useEffect(() => {
-          if (userData.email) { // ✅ Ensure email is available before calling API
-              fetchRoles();
-          }
-      }, [userData.email]);
-      
+  useEffect(() => {
+    if (userData.email) { // ✅ Ensure email is available before calling API
+      fetchRoles();
+    }
+  }, [userData.email]);
+
   const fetchRoles = useCallback(async () => {
     try {
       const response = await fetch(
@@ -235,23 +247,23 @@ const DashboardTwo = () => {
   }, [userData.email]);
   const fetchAdminUsers = useCallback(async () => {
     console.log("inside admin users**999999999999999**");
-    
+
     try {
       const response = await fetch(`http://localhost:3002/users?page=${page}&search=${searchQuery}`, {
         method: "GET",
       });
-      console.log("admin users response*******999999999**",response);
+      console.log("admin users response*******999999999**", response);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const result = await response.json();
-      console.log("adminusers*******99999999",result);
-      
-      if (result.status && result.data) {     
-        console.log(">>>>inside results*******9999999",result.data);
-           
+      console.log("adminusers*******99999999", result);
+
+      if (result.status && result.data) {
+        console.log(">>>>inside results*******9999999", result.data);
+
         const formattedData = result.data.map((user, index) => ({
           SNo: (page - 1) * 10 + index + 1,
           EmployeeID: user.employeeID,
@@ -259,17 +271,17 @@ const DashboardTwo = () => {
           Designation: user.designation,
           Vertical: user.vertical,
           // skill_gap: user.ratings?.length > 0 ? user.ratings.map(r => r.skill.skill_name).join(", ") : "N/A",
-          user_Id:user.user_id
+          user_Id: user.user_id
         }));
 
-        console.log(">>>>formattedData**********99999999999",formattedData);
-        
+        console.log(">>>>formattedData**********99999999999", formattedData);
+
         setRowData(formattedData);
         setHasNext(result.data.length === 10);
         setHasPrev(page > 1);
         setTotalPages(result.totalPages || 1);
-        console.log("admin users rowdata***********99999",rowData);
-        
+        console.log("admin users rowdata***********99999", rowData);
+
       }
     } catch (error) {
       console.error("Error fetching skills:", error);
@@ -277,22 +289,22 @@ const DashboardTwo = () => {
   }, [page, searchQuery]);
   const fetchUsers = useCallback(async () => {
     try {
-        console.log("inside try*****");
-        
-        const response = await fetch(`http://localhost:3002/users-with-hierarchy?email=${userData.email}`, {  
-            method: "GET",
-        });
+      console.log("inside try*****");
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+      const response = await fetch(`http://localhost:3002/users-with-hierarchy?email=${userData.email}&page=${page}&search=${searchQuery}`, {
+        method: "GET",
+      });
 
-        const result = await response.json();
-        console.log("result********", result);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("result********", result);
       if (result && result.reportees) {
         let formattedData = [];
         let formattedInDirectData = [];
-      
+
         if (result.reportees.length > 0) {
           // Function to format direct reportees
           const formatReportees = (reportees, parentId = null) => {
@@ -309,31 +321,31 @@ const DashboardTwo = () => {
               children: rep.reportees.length > 0 ? formatReportees(rep.reportees, rep.user_id) : [],
             }));
           };
-      
+
           formattedData = formatReportees(result.reportees);
-      
+
           // Function to format indirect reportees (only children, not first-level reportees)
           const extractIndirectReportees = (reportees, parentId = null, counter = { value: 1 }) => {
             return reportees.flatMap((rep) => {
               const indirectChildren = extractIndirectReportees(rep.reportees, rep.user_id, counter);
-      
+
               return indirectChildren.length > 0
                 ? indirectChildren
                 : rep.reportees.map((child) => ({
-                    SNo: counter.value++, // Use and increment the counter
-                    EmployeeID: child.employeeID,
-                    Employee_Name: child.userName,
-                    Email: child.emailID,
-                    Designation: child.designation,
-                    Vertical: child.vertical,
-                    Manager: child.L1Manager,
-                    user_Id: child.user_id,
-                    ParentID: rep.user_id,
-                    children: extractIndirectReportees(child.reportees, child.user_id, counter),
-                  }));
+                  SNo: counter.value++, // Use and increment the counter
+                  EmployeeID: child.employeeID,
+                  Employee_Name: child.userName,
+                  Email: child.emailID,
+                  Designation: child.designation,
+                  Vertical: child.vertical,
+                  Manager: child.L1Manager,
+                  user_Id: child.user_id,
+                  ParentID: rep.user_id,
+                  children: extractIndirectReportees(child.reportees, child.user_id, counter),
+                }));
             });
           };
-      
+
           formattedInDirectData = extractIndirectReportees(result.reportees, null, { value: 1 });
         } else {
           // If no reportees, store user details directly
@@ -353,44 +365,44 @@ const DashboardTwo = () => {
           ];
           formattedInDirectData = []; // No indirect reportees
         }
-      
+
         // Set state
         setRowData(formattedData);
         setIndirectReportees(formattedInDirectData);
-      
+
         console.log("Direct Reportees Data:", formattedData);
         console.log("Indirect Reportees Data:", formattedInDirectData);
-      
+
         // Pagination
         setHasNext(result.reportees.length === 10);
         setHasPrev(page > 1);
         setTotalPages(result.totalPages || 1);
       }
-      
+
     } catch (error) {
-        console.error("Error fetching users:", error);
+      console.error("Error fetching users:", error);
     }
-}, [userData.email]);
- console.log("roleId********99999999999",roleId);
- 
-console.log("rowData88888888888",rowData);
-        console.log("indirect Repotees data 8888888888888",indirectReportees);
+  }, [userData.email,page,searchQuery]);
+  console.log("roleId********99999999999", roleId);
+
+  console.log("rowData88888888888", rowData);
+  console.log("indirect Repotees data 8888888888888", indirectReportees);
   useEffect(() => {
     console.log("inside useeffect*********99999 ");
     if (roleId === null) return;
     if (roleId === 1) {
       console.log("inside useeffetc999999999999");
-      
+
       fetchAdminUsers();
-  } else {
+    } else {
       fetchUsers();
-  }    fetchRoles();
-  }, [roleId,fetchUsers,fetchAdminUsers]);
+    } fetchRoles();
+  }, [roleId, fetchUsers, fetchAdminUsers]);
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
     setPage(1);
   };
-  console.log("admin users rowdata***********99999",rowData);
+  console.log("admin users rowdata***********99999", rowData);
 
 
   return (
@@ -403,15 +415,15 @@ console.log("rowData88888888888",rowData);
             onChange={handleSearch} />
         </div>
         <div>
-        <button className="w-[180px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 ml-[40rem] mt-1">
-        <MdOutlineFileDownload className="w-5 h-5 text-[#013579] mr-2" />
-          <a href="/template.xlsx" download="Template.xlsx" className="text-[14px] leading-[19px] font-normal text-[#013579]">
-    Download Template
-  </a>
-</button>
-</div>
-<div className="">
-        <FileUpload fetchUsers={fetchUsers} />
+          <button className="w-[180px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 ml-[40rem] mt-1">
+            <MdOutlineFileDownload className="w-5 h-5 text-[#013579] mr-2" />
+            <a href="/template.xlsx" download="Template.xlsx" className="text-[14px] leading-[19px] font-normal text-[#013579]">
+              Download Template
+            </a>
+          </button>
+        </div>
+        <div className="">
+          <FileUpload fetchUsers={fetchUsers} />
         </div>
       </div>
       <div className="flex ml-2 mt-1">
@@ -429,50 +441,50 @@ console.log("rowData88888888888",rowData);
         </button>
       </div>
       {activeTab === "direct" ? (
-      <div style={containerStyle} className="mt-3">
-        <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
-          <div style={gridStyle}>
-            <AgGridReact
-              rowData={rowData}
-              // columnDefs={[{ field: "SNo" }, { field: "EmployeeID" }, { field: "Employee_Name" }, { field: "Designation" }, { field: "Vertical" }, { field: "skill_gap" }, { field: "Reports", cellRenderer: (params) => <ExportCellRenderer user_Id={params?.data?.user_Id} 
-                  // fetchUsers={fetchUsers} openEditModal={(skill) => { setSelectedSkill(skill); setIsEditModalOpen(true); }} /> }]}
-             columnDefs={columnDefs}
-                  onGridSizeChanged={onGridSizeChanged}
-              onFirstDataRendered={onFirstDataRendered}
-            />
-          </div>
-          <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
-            <button
-              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              style={{ background: hasPrev ? "#013579" : "gray", color: "white", padding: "5px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
-            >
-              Previous
-            </button>
-            <span className="mt-[12px]">Page {page} of {totalPages}</span>
+        <div style={containerStyle} className="mt-3">
+          <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
+            <div style={gridStyle}>
+              <AgGridReact
+                rowData={rowData}
+                // columnDefs={[{ field: "SNo" }, { field: "EmployeeID" }, { field: "Employee_Name" }, { field: "Designation" }, { field: "Vertical" }, { field: "skill_gap" }, { field: "Reports", cellRenderer: (params) => <ExportCellRenderer user_Id={params?.data?.user_Id} 
+                // fetchUsers={fetchUsers} openEditModal={(skill) => { setSelectedSkill(skill); setIsEditModalOpen(true); }} /> }]}
+                columnDefs={columnDefs}
+                onGridSizeChanged={onGridSizeChanged}
+                onFirstDataRendered={onFirstDataRendered}
+              />
+            </div>
+            <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                style={{ background: hasPrev ? "#013579" : "gray", color: "white", padding: "5px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
+              >
+                Previous
+              </button>
+              <span className="mt-[12px]">Page {page} of {totalPages}</span>
 
-            <button
-              onClick={() => setPage((prev) => prev + 1)}
-              style={{ background: hasNext ? "#013579" : "gray", color: "white", padding: "10px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
-              disabled={!hasNext}
-            >
-              Next
-            </button>
+              <button
+                onClick={() => setPage((prev) => prev + 1)}
+                style={{ background: hasNext ? "#013579" : "gray", color: "white", padding: "10px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
+                disabled={!hasNext}
+              >
+                Next
+              </button>
+            </div>
           </div>
-        </div>
-      </div>): (
-  <div style={containerStyle} className="mt-3">
-  <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
-    <div style={gridStyle}>
-      <AgGridReact
-        rowData={indirectReportees}
-        // columnDefs={[{ field: "SNo" }, { field: "EmployeeID" }, { field: "Employee_Name" }, { field: "Designation" }, { field: "Vertical" }, { field: "skill_gap" }, { field: "Reports", cellRenderer: (params) => <ExportCellRenderer user_Id={params?.data?.user_Id} 
-            // fetchUsers={fetchUsers} openEditModal={(skill) => { setSelectedSkill(skill); setIsEditModalOpen(true); }} /> }]}
-       columnDefs={inDirectReporteesColumnDefs}
-            onGridSizeChanged={onGridSizeChanged}
-        onFirstDataRendered={onFirstDataRendered}
-      />
-    </div>
-    {/* <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
+        </div>) : (
+        <div style={containerStyle} className="mt-3">
+          <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>
+            <div style={gridStyle}>
+              <AgGridReact
+                rowData={indirectReportees}
+                // columnDefs={[{ field: "SNo" }, { field: "EmployeeID" }, { field: "Employee_Name" }, { field: "Designation" }, { field: "Vertical" }, { field: "skill_gap" }, { field: "Reports", cellRenderer: (params) => <ExportCellRenderer user_Id={params?.data?.user_Id} 
+                // fetchUsers={fetchUsers} openEditModal={(skill) => { setSelectedSkill(skill); setIsEditModalOpen(true); }} /> }]}
+                columnDefs={inDirectReporteesColumnDefs}
+                onGridSizeChanged={onGridSizeChanged}
+                onFirstDataRendered={onFirstDataRendered}
+              />
+            </div>
+            {/* <div style={{ display: "flex", justifyContent: "right", marginTop: "10px" }}>
       <button
         onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
         style={{ background: hasPrev ? "#013579" : "gray", color: "white", padding: "5px", margin: "5px", border: "none", borderRadius: "5px", cursor: "pointer", width: "100px" }}
@@ -489,17 +501,17 @@ console.log("rowData88888888888",rowData);
         Next
       </button>
     </div> */}
-  </div>
-</div>        )}
+          </div>
+        </div>)}
     </>
   );
 };
 
 const root = createRoot(document.getElementById("root"));
 root.render(
-  <StrictMode>
+  <BrowserRouter>  {/* ✅ Wrap the entire app */}
     <DashboardTwo />
-  </StrictMode>
+  </BrowserRouter>
 );
 window.tearDownExample = () => root.unmount();
 export default DashboardTwo;

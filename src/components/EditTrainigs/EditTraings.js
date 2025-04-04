@@ -48,6 +48,7 @@ const EditTrainigsModal = ({ TrainingsData, onClose, refreshTrainings }) => {
           title: "Training updated successfully!",
           showConfirmButton: true,
         });
+        refreshTrainings();
         // refreshTrainings();
         onClose();
       } else {

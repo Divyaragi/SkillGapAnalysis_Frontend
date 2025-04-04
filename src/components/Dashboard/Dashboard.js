@@ -43,6 +43,7 @@ function Dashboard() {
             <Route path="/ratings" element={<RatingsManager />} />
             <Route path="/Tranings" element={<TrainingsManager />} />
             <Route path="/AddTranings" element={<AddTrainigs />} />
+            
 
             <Route path="/myTrainings" element={<MyTrainings />} />
             <Route path="/myRatings" element={<MyRatings />} />

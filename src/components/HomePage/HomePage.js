@@ -48,17 +48,20 @@ const ActionCellRenderer = ({ data, fetchSkills,openEditModal }) => {
       const response = await fetch(`http://localhost:3002/skills/delete-skill?skill_id=${data.skill_id}`, {
         method: "POST",
       });
+console.log("inside try****%%%%%%***",response);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
 
       const result = await response.json();
+      console.log("delete users***%%%%%%%%%%***",result);
+      
       if (result.status) {
         Swal.fire("Deleted!", "Skill has been deleted.", "success");
         fetchSkills();
       } else {
-      Swal.fire("Error!", result.message || "Failed to delete skill.", "error");
+      Swal.fire("warning!", result.message || "Failed to delete skill.", "warning");
       }
     } catch (error) {
       console.error("Error deleting skill:", error);

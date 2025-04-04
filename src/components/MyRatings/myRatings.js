@@ -217,7 +217,7 @@ const RatingsManager = ( ) => {
   return (
     <>
     <div className="flex justify-between ">
-    <h1 className="text-xl font-semibold ml-2">Ratings</h1>
+    <h1 className="text-xl font-semibold ml-2">My Ratings</h1>
 
       {/* <div className="search-container mr-[5rem]">
       <img src={searchIcon} alt="Search" className="search-icon" />
@@ -225,7 +225,7 @@ const RatingsManager = ( ) => {
     onChange={handleSearch}/>
     </div> */}
     
-   <div className="flex justify-end mr-1 mt-1 ml-[40rem]">
+   <div className="flex justify-end mr-1 mt-1 ml-[38rem]">
     <button className="w-[200px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 mr-2"  onClick={() => setIsViewModalOpen(true)}>
       {/* <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" /> */}
               <MdOutlinePreview className="w-5 h-5 text-[#03c6fc] mr-2" />

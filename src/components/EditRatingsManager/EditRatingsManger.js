@@ -3,12 +3,12 @@ import Swal from "sweetalert2";
 import closeImage from '../../assets/images/closeIcon.png';
 
 const EditRatingsModal = ({ skillData, onClose, refreshSkills, user_id }) => {
-    console.log("skillData*********",skillData);
+    console.log("skillData******55555555555***",skillData);
     
     const [skillName, setSkillName] = useState("");
     const[employeeRating,setEmployeeRating] = useState("");
-const [selectedMangerRating, setselectedMangerRating] = useState("");
-const [selectedRequiredRating, setselectedRequiredRating] = useState("");
+const [selectedMangerRating, setselectedMangerRating] = useState(skillData.manager_rating);
+const [selectedRequiredRating, setselectedRequiredRating] = useState(skillData.required_rating);
 useEffect(() => {
     if (skillData) {
         setSkillName(skillData.skill_name || "");
@@ -136,9 +136,8 @@ useEffect(() => {
                                 setError("");
                             }}
                             className="border p-2 rounded w-full"
-                            required
                         >
-                            <option value="">Select</option>
+                            <option value="">{selectedMangerRating}</option>
                             {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((rating) => (
                                 <option key={rating} value={rating}>
                                     {rating}
@@ -158,9 +157,8 @@ useEffect(() => {
                                 setError("");
                             }}
                             className="border p-2 rounded w-full"
-                            required
                         >
-                            <option value="">Select</option>
+                            <option value="">{selectedRequiredRating}</option>
                             {[1,1.5,2,2.5,3,3.5,4,4.5,5].map((rating) => (
                                 <option key={rating} value={rating}>
                                     {rating}
@@ -169,7 +167,7 @@ useEffect(() => {
                         </select>
                         {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
                     </div>
-                    <div className="flex justify-end gap-2 mt-[10rem]">
+                    <div className="flex justify-end gap-2 mt-[2rem]">
                         <button
                             type="button"
                             onClick={onClose}

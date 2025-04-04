@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLocation } from 'react-router-dom';
 import React, {
   useCallback,
   useMemo,
@@ -27,6 +29,8 @@ import AddRatingsManager from './AddRatingsManager/AddRatingsManger';
 import EditRatingsModal from "./EditRatingsManager/EditRatingsManger";
 import { MdOutlinePreview } from "react-icons/md";
 import ViewProficiencyLevel from "./AddRatingsManager/ViewProficiencyLevel";
+import { IoNotificationsCircleOutline } from "react-icons/io5";
+import Swal from "sweetalert2";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -91,9 +95,22 @@ const ExportCellRenderer = ({onNavigate }) => {
 };
 
 
+
 const RatingsManager = ( ) => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const user_id = queryParams.get("user_id");
+  
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const user_id = queryParams.get("user_id");
+
+  const [user_id, setUserId] = useState(null);
+
+  useEffect(() => {
+    const storedUserId = sessionStorage.getItem("userId");
+    console.log("storedUserIdstoredUserId>>>", storedUserId);
+    
+    setUserId(storedUserId);
+  }, []);
+
+  
   console.log("use id in Ratings manager",user_id);
   
     const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -143,7 +160,7 @@ const [rowData, setRowData] = useState([]);
 
   const fetchRatings = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=${user_id}`, {
+      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=${user_id}&page=${page}&search=${searchQuery}`, {
         method: "GET",
       });
 
@@ -175,7 +192,7 @@ const [rowData, setRowData] = useState([]);
     } catch (error) {
       console.error("Error fetching ratings:", error);
     }
-  }, [page]);
+  }, [page, user_id]);
 
   useEffect(() => {
     fetchRatings();
@@ -187,17 +204,53 @@ const [rowData, setRowData] = useState([]);
   };
   console.log("isEditModalOpen******",isEditModalOpen);
   
+   const handleNotify = async (e) => {
+
+          try {
+              const response = await fetch("http://localhost:3002/skills/notify-user", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                      user_id: user_id,
+                  }),
+              });
+  
+              const data = await response.json();
+              console.log("notify users response****88",data);
+              
+              if (data.success) {
+                  Swal.fire({
+                      icon: "success",
+                      title: data.message,
+                      showConfirmButton: true,
+                  });
+              } else {
+                  throw new Error(data.message || "Failed to add Ratings");
+              }
+          } catch (error) {
+              console.error("Error adding Ratings:", error);
+  
+              Swal.fire({
+                  icon: "warning",
+                  title: "You cannot notify user without giving a Rating",
+                  text: error.message || "Please try again.",
+              });
+  
+          }
+      };
   return (
     <>
     <div className="flex justify-between ">
     <h1 className="text-xl font-semibold ml-2">Ratings</h1>
-
-      {/* <div className="search-container mr-[5rem]">
-      <img src={searchIcon} alt="Search" className="search-icon" />
-      <input type="text" placeholder="Search..." className="search-input"  value={searchQuery} 
-    onChange={handleSearch}/>
-    </div> */}
     <div className="flex justify-end mr-1 mt-1">
+    <button className="w-[140px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 mr-2" onClick={()=> handleNotify() }> 
+              <IoNotificationsCircleOutline className="w-5 h-5 text-[#03c6fc] mr-2" />
+      
+      <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Notify Users</span>
+
+    </button>
     <button className="w-[200px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2 mr-2"  onClick={() => setIsViewModalOpen(true)}>
       {/* <img src={exportIcon} alt="Add" className="w-4 h-4 mr-1" /> */}
               <MdOutlinePreview className="w-5 h-5 text-[#03c6fc] mr-2" />
