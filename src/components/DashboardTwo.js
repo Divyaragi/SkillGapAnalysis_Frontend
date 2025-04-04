@@ -426,7 +426,7 @@ const DashboardTwo = () => {
           <FileUpload fetchUsers={fetchUsers} />
         </div>
       </div>
-      <div className="flex ml-2 mt-1">
+      {/* <div className="flex ml-2 mt-1">
         <button
           className={`px-4 py-2 ${activeTab === "direct" ? "bg-[#013579] text-white" : "bg-gray-200"}`}
           onClick={() => setActiveTab("direct")}
@@ -439,7 +439,26 @@ const DashboardTwo = () => {
         >
           Indirect Reportees
         </button>
-      </div>
+      </div> */}
+      <div className="flex ml-2 mt-1">
+  {roleId == 2 && (
+    <>
+      <button
+        className={`px-4 py-2 ${activeTab === "direct" ? "bg-[#013579] text-white" : "bg-gray-200"}`}
+        onClick={() => setActiveTab("direct")}
+      >
+        Direct Reportees
+      </button>
+      <button
+        className={`px-4 py-2 ml-2 ${activeTab === "indirect" ? "bg-[#013579] text-white" : "bg-gray-200"}`}
+        onClick={() => setActiveTab("indirect")}
+      >
+        Indirect Reportees
+      </button>
+    </>
+  )}
+</div>
+
       {activeTab === "direct" ? (
         <div style={containerStyle} className="mt-3">
           <div id="grid-wrapper" style={{ width: "100%", height: "100%" }}>

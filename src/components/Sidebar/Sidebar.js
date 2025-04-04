@@ -43,7 +43,8 @@ const Navbar = () => {
         return;
       }
       console.log(`Navigating to ${path} with User ID:`, user_id);
-      navigate(`${path}?userId=${user_id}`); // Passing userId in URL
+      navigate(`${path}?userId=${user_id}`); 
+      // navigate(path, { state: { userId: user_id } });
     };
      useEffect(() => {
         const token = Cookies.get("result"); 

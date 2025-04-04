@@ -180,7 +180,7 @@ const HomePage = () => {
       <input type="text" placeholder="Search Skills..." className="search-input"value={searchQuery} 
     onChange={handleSearch}  />
     </div>
-        <div className="flex justify-end mr-1">
+        <div className="flex justify-end mr-1 mt-1">
      <button className="w-[70px] h-[36px] bg-white border border-[#013579] rounded-md flex items-center px-2"  onClick={() => setIsModalOpen(true)}>
       <img src={addImage} alt="Add" className="w-4 h-4 mr-1" />
       <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
