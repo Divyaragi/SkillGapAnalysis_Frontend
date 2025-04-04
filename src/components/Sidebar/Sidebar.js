@@ -42,8 +42,11 @@ const Navbar = () => {
         console.error("User ID is not available!");
         return;
       }
+      sessionStorage.setItem("userId", user_id);
+      // navigate("/MyRatings");
+
       console.log(`Navigating to ${path} with User ID:`, user_id);
-      navigate(`${path}?userId=${user_id}`); 
+      navigate(`${path}`); 
       // navigate(path, { state: { userId: user_id } });
     };
      useEffect(() => {
@@ -202,7 +205,7 @@ const Navbar = () => {
                      >
                         {sidebarTextSamples.MY_TRAININGS}</MenuItem>
                         <MenuItem className='first-menu-item' icon={<GoGraph />}
-                    onClick={() => handleRatingNavigation("MyRatings", userId)}
+                    onClick={() => handleNavigation("MyRatings", userId)}
                      >
                         {sidebarTextSamples.MY_Ratings}</MenuItem>
                     <div>

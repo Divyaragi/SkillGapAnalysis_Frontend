@@ -23,6 +23,8 @@ import addImage from '../../assets/images/addImage.png';
 import searchIcon from '../../assets/search.png';
 import AddTrainigs from "../AddTrainigs/AddTraining";
 import EditTrainigsModal from "../EditTrainigs/EditTraings";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import { duration } from "@mui/material";
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -114,6 +116,7 @@ const TrainingsManager = () => {
     const [columnDefs] = useState([
         { field: "employee_id", headerName: "Employee Id" },
         { field: "employee_Name", headerName: "Employee Name" },
+        { field: "skill_name", headerName: "Skill Name" },
         { field: "training_Type", headerName: "Training Type" },
         { field: "duration", headerName: "Duration" },
         { field: "material", headerName: "Material" },
@@ -138,7 +141,58 @@ const TrainingsManager = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedProviderId, setSelectedProviderId] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
+  const [userData, setUserData] = useState({ name: "", email: "" });
+        const [roleId, setRoleId] = useState(null);
+        const [userId, setUserId] = useState(null);
+    
+ useEffect(() => {
+        const token = Cookies.get("result");
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                setUserData({
+                    name: decodedToken.name,
+                    email: decodedToken.upn || decodedToken.email || "No Email",
+                });
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
+    }, []);
+    console.log("userData**********sidebar", userData);
+    useEffect(() => {
+        if (userData.email) {
+            fetchRoles();
+        }
+    }, [userData.email]);
 
+    const fetchRoles = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3002/fetch-users-by-emailID?email=${userData.email}`,
+                {
+                    method: "GET",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("result********sidebar", result);
+
+            if (result?.success && result?.data) {
+                setRoleId(result?.data?.role_id); // Store role_id
+                console.log("Role ID:", result.data.role_id);
+                setUserId(result?.data?.user_id);
+            }
+        } catch (error) {
+            console.error("Error fetching roles:", error);
+        }
+    }, [userData.email]);
+    console.log("roleId**********877777777777",roleId);
+    
     const fetchTrainings = useCallback(async () => {
         try {
             const response = await fetch(`http://localhost:3002/training-resources/fetch-training-resources?page=${page}&limit=10`, {
@@ -160,6 +214,7 @@ const TrainingsManager = () => {
                     duration: training.duration || "N/A",
                     material: training.materials || "N/A",
                     skill_id: training.skill?.skill_id || null,
+                    skill_name:training.skill.skill_name || "-",
                     resource_id : training.resource_id || "N/A",
                     provider_id:training.provider_id || "N/A",
                     user_id:training.provider?.user_id || "N/A",

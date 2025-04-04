@@ -32,6 +32,8 @@ import { MdOutlinePreview } from "react-icons/md";
 import ViewProficiencyLevel from "../AddRatingsManager/ViewProficiencyLevel";
 import AddRatings from '../AddRatings/AddRatings';
 import EditRatings from '../EditRatings/EditRatings';
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   ColumnApiModule,
@@ -136,6 +138,60 @@ const RatingsManager = ( ) => {
   const [ratingId, setRatingId] = useState(null);
   const [selectedProviderId, setSelectedProviderId] = useState(null);
     const [categories, setCategories] = useState([]);
+        const [userData, setUserData] = useState({ name: "", email: "" });
+        const [roleId, setRoleId] = useState(null);
+        const [userId, setUserId] = useState(null);
+    
+ useEffect(() => {
+        const token = Cookies.get("result");
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                setUserData({
+                    name: decodedToken.name,
+                    email: decodedToken.upn || decodedToken.email || "No Email",
+                });
+            } catch (error) {
+                console.error("Error decoding token:", error);
+            }
+        }
+    }, []);
+    console.log("userData**********sidebar", userData);
+    useEffect(() => {
+        if (userData.email) {
+            fetchRoles();
+        }
+    }, [userData.email]);
+
+    const fetchRoles = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3002/fetch-users-by-emailID?email=${userData.email}`,
+                {
+                    method: "GET",
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("result********sidebar", result);
+
+            if (result?.success && result?.data) {
+                setRoleId(result?.data?.role_id); // Store role_id
+                console.log("Role ID:", result.data.role_id);
+                setUserId(result?.data?.user_id);
+            }
+        } catch (error) {
+            console.error("Error fetching roles:", error);
+        }
+    }, [userData.email]);
+
+    useEffect(() => {
+        fetchRoles();
+    }, [fetchRoles]);
 
   const fetchSkills = useCallback(async () => {
           try {
@@ -174,7 +230,7 @@ const RatingsManager = ( ) => {
 
   const fetchRatings = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=73`, {
+      const response = await fetch(`http://localhost:3002/skills/fetch-ratings?user_id=${userId}&page=${page}`, {
         method: "GET",
       });
 
@@ -183,7 +239,7 @@ const RatingsManager = ( ) => {
       }
 
       const result = await response.json();
-      console.log("result********",result);
+      console.log("result*****myRatings***",result);
       if (result.success && result.data) {
         const formattedData = result.data.map((rating) => ({
           skill_name: rating.skill.skill_name,
@@ -206,7 +262,7 @@ const RatingsManager = ( ) => {
     } catch (error) {
       console.error("Error fetching ratings:", error);
     }
-  }, [page]);
+  }, [userId,page]);
 
   useEffect(() => {
     fetchRatings();
