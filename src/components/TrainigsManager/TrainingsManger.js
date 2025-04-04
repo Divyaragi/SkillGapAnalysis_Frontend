@@ -195,33 +195,46 @@ const TrainingsManager = () => {
     
     const fetchTrainings = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:3002/training-resources/fetch-training-resources?page=${page}&limit=10`, {
+            // Build the URL conditionally
+            let url = `http://localhost:3002/training-resources/fetch-training-resources?page=${page}&limit=10`;
+            if (roleId !== 1 && userId) {
+                url += `&user_id=${userId}`;
+            }
+    
+            const response = await fetch(url, {
                 method: "GET",
             });
-
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const result = await response.json();
-            console.log("trainings result**********",result);
-            
-            if (result.data) {
-                const formattedData = result.data.trainingResources.map((training, index) => ({
-                    sNo: (page - 1) * 10 + index + 1,
-                    employee_id: training.provider?.employeeID || "N/A",
-                    employee_Name: training.provider?.userName || "N/A",
-                    training_Type: training.resource_type || "N/A",
-                    duration: training.duration || "N/A",
-                    material: training.materials || "N/A",
-                    skill_id: training.skill?.skill_id || null,
-                    skill_name:training.skill.skill_name || "-",
-                    resource_id : training.resource_id || "N/A",
-                    provider_id:training.provider_id || "N/A",
-                    user_id:training.provider?.user_id || "N/A",
-                }));
-                setRowData(formattedData);
     
-                // Fix pagination logic
+            const result = await response.json();
+            console.log("trainings result**********", result);
+    
+           
+        if (result.data) {
+            const trainings = roleId === 1
+                ? result.data.trainingResources
+                : result.data.reporteesTrainings;
+
+            const formattedData = trainings.map((training, index) => ({
+                sNo: (page - 1) * 10 + index + 1,
+                employee_id: training.provider?.employeeID || "N/A",
+                employee_Name: training.provider?.userName || "N/A",
+                training_Type: training.resource_type || "N/A",
+                duration: training.duration || "N/A",
+                material: training.materials || "N/A",
+                skill_id: training.skill?.skill_id || null,
+                skill_name: training.skill?.skill_name || "-",
+                resource_id: training.resource_id || "N/A",
+                provider_id: training.provider_id || "N/A",
+                user_id: training.provider?.user_id || "N/A",
+            }));
+
+    console.log("formatted data*******",formattedData);
+    
+                setRowData(formattedData);
                 setHasNext((page * 10) < result.data.total);
                 setHasPrev(page > 1);
                 setTotalPages(Math.ceil(result.data.total / 10));
@@ -229,7 +242,7 @@ const TrainingsManager = () => {
         } catch (error) {
             console.error("Error fetching skills:", error);
         }
-    }, [page]);
+    }, [page, roleId, userId]);
     
     
 

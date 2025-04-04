@@ -246,7 +246,7 @@ const RatingsManager = ( ) => {
           self_rating: rating.self_rating ?? "-",
           manager_rating: rating.manager_rating ?? "-",
           required_rating: rating.required_rating ?? "-",
-          skill_gap: rating.skill_gap ?? "-",
+          skill_gap: rating.skill_gap || "-",
           proficiency_level: rating.proficiency_level ?? "-",
           rating_id: rating.rating_id ?? "-", 
           skill_id:rating.skill.skill_id,
@@ -305,7 +305,7 @@ const RatingsManager = ( ) => {
                             <img src={addImage} alt="Add" className="w-4 h-4 mr-1" />
                             <span className="text-left text-[14px] leading-[19px] font-normal text-[#013579]">Add</span>
                         </button>
-                        {isModalOpen && <AddRatings onClose={() => setIsModalOpen(false)} refreshSkills={fetchRatings} user_id={user_id} />}
+                        {isModalOpen && <AddRatings onClose={() => setIsModalOpen(false)} refreshSkills={fetchRatings} user_id={userId} />}
   
                     </div>
  
@@ -341,7 +341,7 @@ const RatingsManager = ( ) => {
       </div>
     </div>
     {isEditModalOpen &&selectedSkill && (
-        <EditRatings skillData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchRatings}  user_id={user_id} />
+        <EditRatings skillData={selectedSkill} onClose={() => setIsEditModalOpen(false)} refreshSkills={fetchRatings}  user_id={userId} />
       )}
     </>
   );

@@ -47,6 +47,7 @@ const AddRatings = ({ onClose, refreshSkills, user_id }) => {
         if (!validateForm()) return;
         setLoading(true);
         console.log("Submitting data:", { user_id, skill_id: skillId, self_rating: Number(selfRating) });
+    
         try {
             const response = await fetch("http://localhost:3002/skills/insert-skill-ratings", {
                 method: "POST",
